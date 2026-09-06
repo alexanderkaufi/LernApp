@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#5b4cf0" />
+    <meta name="description" content="KLUUG – motivierend Brüche und andere Schulthemen lernen." />
+    <title>KLUUG – Lernen macht Klick!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <header class="topbar">
+      <button class="brand" id="homeButton" aria-label="Zur Startseite">
+        <span class="brand-mark">K</span>
+        <span>KLUUG</span>
+      </button>
+      <div class="top-actions">
+        <button class="sound-button" id="soundButton" aria-label="Ton ausschalten" aria-pressed="true">♪</button>
+        <div class="streak-pill" title="Deine Lernserie">
+          <span>🔥</span><strong id="headerStreak">3</strong><span class="hide-mobile"> Tage</span>
+        </div>
+        <button class="avatar-button" id="profileButton" aria-label="Profil öffnen">AK</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="dashboardView" class="view dashboard-view active" aria-labelledby="welcomeTitle">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <span class="eyebrow"><span class="pulse-dot"></span> Bereit für heute?</span>
+            <h1 id="welcomeTitle">Hey Alex!<br /><span>Was knacken wir heute?</span></h1>
+            <p>Du musst nicht alles sofort können. Wir gehen gemeinsam Schritt für Schritt – und feiern jeden Klick im Kopf.</p>
+          </div>
+          <div class="mascot-stage" aria-label="Kluug, dein motivierender Lerntutor">
+            <div class="speech-bubble" id="heroSpeech">Ich glaub an dich!<br /><strong>Los geht’s?</strong></div>
+            <div class="mascot happy" id="heroMascot" aria-hidden="true">
+              <div class="ear left"></div><div class="ear right"></div>
+              <div class="face"><i class="eye left"></i><i class="eye right"></i><i class="mouth"></i></div>
+              <div class="mascot-body"><span class="bolt">ϟ</span></div>
+              <div class="arm left"></div><div class="arm right"></div>
+            </div>
+          </div>
+        </div>
+
+        <section class="continue-card" aria-labelledby="continueTitle">
+          <div class="continue-icon fraction-symbol"><span>3</span><span>4</span></div>
+          <div class="continue-copy">
+            <span class="section-kicker">WEITERMACHEN</span>
+            <h2 id="continueTitle">Brüche verstehen</h2>
+            <p>Grundlagen · Runde 2 von 5</p>
+            <div class="progress-line"><span style="width: 38%"></span></div>
+          </div>
+          <button class="primary-button" id="continueButton">Weiterlernen <span>→</span></button>
+        </section>
+
+        <div class="section-heading">
+          <div><span class="section-kicker">DEINE LERNWELT</span><h2>Wähle ein Thema</h2></div>
+          <div class="grade-select-wrap"><label for="gradeSelect">Klasse</label><select id="gradeSelect"><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+        </div>
+
+        <div class="subject-tabs" role="tablist" aria-label="Fächer">
+          <button class="subject-tab active" data-filter="all" role="tab" aria-selected="true">Alle</button>
+          <button class="subject-tab" data-filter="mathe" role="tab">Mathe</button>
+          <button class="subject-tab" data-filter="deutsch" role="tab">Deutsch</button>
+          <button class="subject-tab" data-filter="natur" role="tab">Natur & Technik</button>
+        </div>
+
+        <div class="topic-grid" id="topicGrid">
+          <article class="topic-card fraction-card" data-subject="mathe">
+            <div class="card-art fraction-art"><div class="pie"><span></span></div><div class="mini-fraction"><b>3</b><b>4</b></div></div>
+            <div class="topic-body"><span class="topic-label">MATHE · BRÜCHE</span><h3>Brüche verstehen</h3><p>Teile, kürze und vergleiche Brüche ganz ohne Knoten im Kopf.</p><div class="topic-meta"><span>12 Lektionen</span><span>⭐ 240 XP</span></div><button class="card-button" data-start>Starten <span>→</span></button></div>
+          </article>
+          <article class="topic-card" data-subject="mathe">
+            <div class="card-art geometry-art"><i></i><i></i><i></i></div>
+            <div class="topic-body"><span class="topic-label">MATHE · GEOMETRIE</span><h3>Formen & Flächen</h3><p>Entdecke Winkel, Flächen und Figuren in deiner Welt.</p><div class="topic-meta"><span>9 Lektionen</span><span>⭐ 180 XP</span></div><button class="card-button secondary" data-soon>Entdecken <span>→</span></button></div>
+          </article>
+          <article class="topic-card" data-subject="deutsch">
+            <div class="card-art words-art"><span>A</span><span>!</span><span>?</span></div>
+            <div class="topic-body"><span class="topic-label coral">DEUTSCH · SPRACHE</span><h3>Wortarten-Detektive</h3><p>Spüre Nomen, Verben und Adjektive wie ein Profi auf.</p><div class="topic-meta"><span>8 Lektionen</span><span>⭐ 160 XP</span></div><button class="card-button secondary" data-soon>Entdecken <span>→</span></button></div>
+          </article>
+          <article class="topic-card" data-subject="natur">
+            <div class="card-art science-art"><span>⚡</span><i></i></div>
+            <div class="topic-body"><span class="topic-label green">NATUR & TECHNIK</span><h3>Energie-Check</h3><p>Finde heraus, was unsere Welt antreibt und bewegt.</p><div class="topic-meta"><span>7 Lektionen</span><span>⭐ 140 XP</span></div><button class="card-button secondary" data-soon>Entdecken <span>→</span></button></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="lessonView" class="view lesson-view" aria-labelledby="lessonTitle">
+        <div class="lesson-top">
+          <button class="back-button" id="backButton" aria-label="Zurück zur Themenauswahl">←</button>
+          <div class="lesson-progress-wrap">
+            <div class="lesson-progress-label"><span>BRÜCHE · GRUNDLAGEN</span><strong id="roundLabel">1 / 5</strong></div>
+            <div class="lesson-progress"><span id="lessonProgressBar"></span></div>
+          </div>
+          <div class="score-pill">⭐ <strong id="scoreValue">0</strong> XP</div>
+        </div>
+
+        <div class="lesson-layout">
+          <aside class="tutor-panel">
+            <div class="mini-mascot happy" id="lessonMascot"><div class="mini-face"><i></i><i></i><b></b></div><span>ϟ</span></div>
+            <div class="tutor-copy"><span>KLUUG SAGT</span><p id="tutorText">Ein Bruch zeigt, wie viele Teile von einem Ganzen gemeint sind. Das schaffst du!</p></div>
+          </aside>
+
+          <article class="exercise-card" id="exerciseCard">
+            <span class="exercise-type" id="exerciseType">AUFWÄRMEN</span>
+            <h1 id="lessonTitle">Welcher Bruch ist gefärbt?</h1>
+            <p class="exercise-hint" id="exerciseHint">Zähle erst alle Teile – und dann die lila Teile.</p>
+            <div class="visual-question" id="visualQuestion" aria-label="Grafische Darstellung des Bruchs"></div>
+            <div class="answers" id="answers"></div>
+            <div class="feedback" id="feedback" aria-live="polite">
+              <div class="feedback-icon" id="feedbackIcon">✓</div>
+              <div><strong id="feedbackTitle">Stark!</strong><p id="feedbackText">Genau richtig.</p></div>
+              <button class="next-button" id="nextButton">Weiter <span>→</span></button>
+            </div>
+          </article>
+
+          <aside class="streak-card">
+            <span class="streak-flame">🔥</span><div><strong id="lessonStreak">0</strong><span>RICHTIG IN FOLGE</span></div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="resultView" class="view result-view" aria-labelledby="resultTitle">
+        <div class="confetti" id="confetti"></div>
+        <div class="result-card">
+          <div class="result-mascot">🎉</div>
+          <span class="section-kicker">RUNDE GESCHAFFT</span>
+          <h1 id="resultTitle">Du Bruch-Profi!</h1>
+          <p id="resultMessage">Du hast dich richtig reingehängt. Darauf kannst du stolz sein!</p>
+          <div class="result-stats"><div><strong id="resultCorrect">0/5</strong><span>Richtig</span></div><div><strong id="resultXp">0</strong><span>XP gesammelt</span></div><div><strong id="bestStreak">0</strong><span>Beste Serie</span></div></div>
+          <div class="result-actions"><button class="primary-button" id="againButton">Noch eine Runde</button><button class="ghost-button" id="resultHomeButton">Themen wählen</button></div>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status"><span>✨</span><div><strong>Bald verfügbar!</strong><p>Dieses Abenteuer bauen wir gerade für dich.</p></div></div>
+    <script src="app.js"></script>
+  </body>
+</html>
