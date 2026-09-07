@@ -12,13 +12,14 @@ Danach im Browser `http://localhost:8000` öffnen.
 
 ## Enthalten
 
-- Themen- und Klassenwahl
-- Fünf interaktive Bruchaufgaben mit visuellen Modellen
+- Fächerfilter und dauerhaft gespeicherte Klassenwahl
+- Je zehn eigene Bruchaufgaben für die Klassen 5, 6, 7 und 8 (40 Aufgaben insgesamt)
+- Klarer Lernpfad `Mathe → Brüche → Lernstation oder Quiz-Quest`
 - Fiete als emotionaler Tutor mit High-Five-Reaktionen und deutscher Sprachausgabe
 - Interaktive Pizza-Bäckerei zum Belegen von Bruchteilen
 - Schoko-Labor mit Reglern, Dezimalzahl und dynamischem Zahlenstrahl
 - Animierte Bruch-Waage zum Größenvergleich
-- Quiz-Quest mit fünf Missionen
+- Quiz-Quest mit zehn Missionen und bis zu 200 XP pro Runde
 - Dauerhaft gespeicherte XP, Lernserie und sechs freischaltbare Abzeichen
 - Tonfeedback mit Ein-/Ausschalter
 - Responsive Darstellung und reduzierte Animation bei entsprechender Systemeinstellung

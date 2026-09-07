@@ -54,9 +54,9 @@
         <section class="continue-card" aria-labelledby="continueTitle">
           <div class="continue-icon fraction-symbol"><span>3</span><span>4</span></div>
           <div class="continue-copy">
-            <span class="section-kicker">WEITERMACHEN</span>
+            <span class="section-kicker" id="continueContext">MATHE · KLASSE 5 · WEITERMACHEN</span>
             <h2 id="continueTitle">Brüche verstehen</h2>
-            <p>Grundlagen · Runde 2 von 5</p>
+            <p id="continueSubtitle">Grundlagen · Runde 2 von 5</p>
             <div class="progress-line"><span style="width: 38%"></span></div>
           </div>
           <button class="primary-button" id="continueButton">Weiterlernen <span>→</span></button>
@@ -74,23 +74,23 @@
           <button class="subject-tab" data-filter="natur" role="tab">Natur &amp; Technik</button>
         </div>
 
-        <section class="adventure-section" aria-labelledby="adventureTitle">
+        <section class="adventure-section" id="mathAdventure" data-subject-section="mathe" aria-labelledby="adventureTitle">
           <div class="adventure-heading">
-            <div><span class="section-kicker">SPIELEND VERSTEHEN</span><h2 id="adventureTitle">Fietes Bruch-Spielplatz</h2><p>Vier Stationen, vier Wege zum Aha-Moment.</p></div>
-            <span class="adventure-counter"><strong id="adventureCount">0</strong>/4 ausprobiert</span>
+            <div><span class="section-kicker">MATHE · BRÜCHE · <b id="adventureGrade">KLASSE 5</b></span><h2 id="adventureTitle">Fietes Bruch-Spielplatz</h2><p id="adventureSubtitle">Bruchteile erkennen, darstellen und vergleichen.</p></div>
+            <div class="adventure-status"><span class="level-pill" id="levelPill">GRUNDLAGEN</span><span class="adventure-counter"><strong id="adventureCount">0</strong>/4 ausprobiert</span></div>
           </div>
           <div class="station-grid">
             <button class="station-card pizza-station" data-station="pizza"><span class="station-emoji">🍕</span><span><small>STATION 1</small><strong>Pizza-Bäckerei</strong><em>Brüche selbst belegen</em></span><b>→</b></button>
             <button class="station-card chocolate-station" data-station="lab"><span class="station-emoji">🍫</span><span><small>STATION 2</small><strong>Schoko-Labor</strong><em>Frei experimentieren</em></span><b>→</b></button>
             <button class="station-card duel-station" data-station="duel"><span class="station-emoji">⚖️</span><span><small>STATION 3</small><strong>Bruch-Duell</strong><em>Größen vergleichen</em></span><b>→</b></button>
-            <button class="station-card quest-station" data-station="quest"><span class="station-emoji">🚀</span><span><small>STATION 4</small><strong>Quiz-Quest</strong><em>Fünf Missionen lösen</em></span><b>→</b></button>
+            <button class="station-card quest-station" data-station="quest"><span class="station-emoji">🚀</span><span><small>STATION 4</small><strong>Quiz-Quest</strong><em>Zehn Missionen lösen</em></span><b>→</b></button>
           </div>
         </section>
 
         <div class="topic-grid" id="topicGrid">
-          <article class="topic-card fraction-card" data-subject="mathe">
+          <article class="topic-card fraction-card" data-subject="mathe" data-grades="5,6,7,8">
             <div class="card-art fraction-art"><div class="pie"><span></span></div><div class="mini-fraction"><b>3</b><b>4</b></div></div>
-            <div class="topic-body"><span class="topic-label">MATHE · BRÜCHE</span><h3>Brüche verstehen</h3><p>Teile, kürze und vergleiche Brüche ganz ohne Knoten im Kopf.</p><div class="topic-meta"><span>12 Lektionen</span><span>⭐ 240 XP</span></div><button class="card-button" data-start>Starten <span>→</span></button></div>
+            <div class="topic-body"><span class="topic-label" id="fractionTopicLabel">MATHE · KLASSE 5</span><h3 id="fractionTopicTitle">Brüche verstehen</h3><p id="fractionTopicDescription">Teile, kürze und vergleiche Brüche ganz ohne Knoten im Kopf.</p><div class="topic-meta"><span id="fractionLessonCount">12 Lektionen</span><span>⭐ 240 XP</span></div><button class="card-button" data-open-math>Lernwelt öffnen <span>→</span></button></div>
           </article>
           <article class="topic-card" data-subject="mathe">
             <div class="card-art geometry-art"><i></i><i></i><i></i></div>
@@ -110,7 +110,7 @@
       <section id="stationView" class="view station-view" aria-labelledby="stationTitle">
         <div class="station-topbar">
           <button class="back-button" id="stationBackButton" aria-label="Zurück zum Bruch-Spielplatz">←</button>
-          <div><span class="section-kicker">FIETES BRUCH-SPIELPLATZ</span><h1 id="stationTitle">Pizza-Bäckerei</h1></div>
+          <div><span class="section-kicker" id="stationContextLabel">MATHE · BRÜCHE · KLASSE 5</span><h1 id="stationTitle">Pizza-Bäckerei</h1></div>
           <div class="xp-pill">⭐ <strong id="stationXp">0</strong> XP</div>
         </div>
 
@@ -153,7 +153,7 @@
           </div>
 
           <div class="station-panel" id="questPanel" data-panel="quest">
-            <div class="quest-hero"><span>🚀</span><small>QUIZ-QUEST</small><h2>Bereit für fünf Missionen?</h2><p>Teste dein Wissen, sammle bis zu 100 XP und werde zum Bruch-Profi.</p><div class="quest-map"><i class="done">1</i><b></b><i>2</i><b></b><i>3</i><b></b><i>4</i><b></b><i>5</i></div><button class="primary-button" id="questStartButton">Quest starten →</button></div>
+            <div class="quest-hero"><span>🚀</span><small id="questGradeLabel">QUIZ-QUEST · KLASSE 5</small><h2>Bereit für zehn Missionen?</h2><p id="questDescription">Teste dein Wissen, sammle bis zu 200 XP und werde zum Bruch-Profi.</p><div class="quest-map"><i class="done">1</i><b></b><i>2</i><b></b><i>3</i><b></b><i>4</i><b></b><i>5</i><b></b><i>6</i><b></b><i>7</i><b></b><i>8</i><b></b><i>9</i><b></b><i>10</i></div><button class="primary-button" id="questStartButton">Quest starten →</button></div>
           </div>
         </div>
       </section>
@@ -162,7 +162,7 @@
         <div class="lesson-top">
           <button class="back-button" id="backButton" aria-label="Zurück zur Themenauswahl">←</button>
           <div class="lesson-progress-wrap">
-            <div class="lesson-progress-label"><span>BRÜCHE · GRUNDLAGEN</span><strong id="roundLabel">1 / 5</strong></div>
+            <div class="lesson-progress-label"><span id="lessonLevelLabel">BRÜCHE · KLASSE 5</span><strong id="roundLabel">1 / 5</strong></div>
             <div class="lesson-progress"><span id="lessonProgressBar"></span></div>
           </div>
           <div class="score-pill">⭐ <strong id="scoreValue">0</strong> XP</div>

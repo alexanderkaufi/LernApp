@@ -6,7 +6,7 @@ const stationMeta = {
   pizza: { title: 'Pizza-Bäckerei', message: 'Willkommen in meiner Bäckerei! Belege genau so viele Stücke, wie bestellt wurden.' },
   lab: { title: 'Schoko-Labor', message: 'Zieh an den Reglern. Schokolade, Bruch und Zahlenstrahl verändern sich gemeinsam!' },
   duel: { title: 'Bruch-Duell', message: 'Vergleiche die Anteile, nicht nur die Zahlen. Die Waage verrät danach das Ergebnis.' },
-  quest: { title: 'Quiz-Quest', message: 'Fünf Missionen warten auf dich. Fehler sind dabei nur Hinweise fürs nächste Level.' }
+  quest: { title: 'Quiz-Quest', message: 'Zehn Missionen warten auf dich. Fehler sind dabei nur Hinweise fürs nächste Level.' }
 };
 const badgeDefinitions = [
   { id: 'firstStep', icon: '👣', name: 'Erster Schritt', hint: 'Öffne deine erste Station' },
@@ -17,7 +17,7 @@ const badgeDefinitions = [
   { id: 'streak', icon: '🔥', name: 'Feuer-Serie', hint: 'Löse drei Aufgaben in Folge' }
 ];
 
-const defaultProgress = { totalXp: 0, badges: [], visitedStations: [], labDiscoveries: [], soundOn: true };
+const defaultProgress = { totalXp: 0, badges: [], visitedStations: [], labDiscoveries: [], soundOn: true, selectedGrade: 5 };
 let progress = loadProgress();
 let toastTimer;
 
@@ -223,16 +223,116 @@ function answerDuel(answer) {
   }
 }
 
-// Quiz-Quest
-const questions = [
+// Mathe → Brüche → klassenbezogene Quiz-Quest
+const questionsByGrade = {
+  5: [
   { type: 'AUFWÄRMEN', title: 'Welcher Bruch ist gefärbt?', hint: 'Zähle erst alle Teile – und dann die lila Teile.', visual: 'tiles', total: 8, filled: 3, cols: 4, answers: ['3/8', '5/8', '3/5'], correct: 0, tip: 'Oben steht die Zahl der gefärbten Teile, unten die Zahl aller Teile.' },
   { type: 'SCHNELL-CHECK', title: 'Welcher Bruch ist größer?', hint: 'Stell dir zwei gleich große Pizzen vor.', visual: 'compare', fractions: ['2/3', '2/5'], answers: ['2/3', 'Gleich groß', '2/5'], correct: 0, tip: 'Bei gleichem Zähler gilt: Je kleiner der Nenner, desto größer die Stücke.' },
   { type: 'KÜRZEN', title: 'Kürze den Bruch 6/8', hint: 'Teile Zähler und Nenner durch dieselbe Zahl.', visual: 'number', fraction: '6/8', answers: ['2/3', '3/4', '4/6'], correct: 1, tip: '6 und 8 lassen sich beide durch 2 teilen.' },
   { type: 'BILD-CHECK', title: 'Welcher Bruch ist gefärbt?', hint: 'Achte auf die Anzahl aller gleich großen Felder.', visual: 'tiles', total: 6, filled: 4, cols: 3, answers: ['4/6', '2/6', '4/2'], correct: 0, tip: 'Vier von insgesamt sechs Feldern sind lila.' },
-  { type: 'FINALE', title: 'Was ist gleich viel wie 1/2?', hint: 'Erweitern verändert den Wert eines Bruchs nicht.', visual: 'compareEqual', fractions: ['1/2', '?'], answers: ['2/3', '2/4', '3/5'], correct: 1, tip: 'Multipliziere Zähler und Nenner mit derselben Zahl.' }
-];
+  { type: 'GLEICHWERTIG', title: 'Was ist gleich viel wie 1/2?', hint: 'Erweitern verändert den Wert eines Bruchs nicht.', visual: 'compareEqual', fractions: ['1/2', '?'], answers: ['2/3', '2/4', '3/5'], correct: 1, tip: 'Multipliziere Zähler und Nenner mit derselben Zahl.' },
+    { type: 'BILD-CHECK', title: 'Welcher Bruch ist gefärbt?', hint: 'Zähle alle zehn Felder sorgfältig.', visual: 'tiles', total: 10, filled: 7, cols: 5, answers: ['7/10', '3/10', '7/3'], correct: 0, tip: 'Sieben von zehn Feldern sind gefärbt: 7/10.' },
+    { type: 'VERGLEICHEN', title: 'Welcher Bruch ist am kleinsten?', hint: 'Alle drei Brüche sind Teile desselben Ganzen.', visual: 'expression', equation: '1/4  ·  1/2  ·  3/4', answers: ['1/4', '1/2', '3/4'], correct: 0, tip: 'Ein Viertel ist kleiner als eine Hälfte und drei Viertel.' },
+    { type: 'UMWANDELN', title: 'Wandle die gemischte Zahl um', hint: 'Ein Ganzes sind zwei Halbe.', visual: 'expression', equation: '1 1/2 = ?', answers: ['2/2', '3/2', '3/1'], correct: 1, tip: '1 Ganzes sind 2/2. Plus 1/2 ergibt 3/2.' },
+    { type: 'ANTEIL BERECHNEN', title: 'Was sind 3/4 von 12?', hint: 'Teile 12 zuerst in vier gleich große Gruppen.', visual: 'expression', equation: '3/4 von 12', answers: ['3', '8', '9'], correct: 2, tip: '12 : 4 = 3 und 3 · 3 = 9.' },
+    { type: 'FINALE', title: 'Sechs von acht Stücken sind weg', hint: 'Welcher Anteil des Kuchens wurde gegessen?', visual: 'expression', equation: '6 von 8 Stücken', answers: ['1/4', '3/4', '6/2'], correct: 1, tip: '6/8 lässt sich durch 2 kürzen und ergibt 3/4.' }
+  ],
+  6: [
+    { type: 'KÜRZEN', title: 'Kürze vollständig', hint: 'Finde eine Zahl, die Zähler und Nenner teilt.', visual: 'number', fraction: '18/24', answers: ['3/4', '6/8', '9/12'], correct: 0, tip: 'Teile 18 und 24 durch 6. So erhältst du 3/4.' },
+    { type: 'ERWEITERN', title: 'Erweitere auf den Nenner 20', hint: 'Mit welcher Zahl wird 5 zu 20?', visual: 'expression', equation: '3/5 = ?/20', answers: ['9/20', '12/20', '15/20'], correct: 1, tip: '5 · 4 = 20, also rechnest du auch 3 · 4 = 12.' },
+    { type: 'ADDIEREN', title: 'Addiere gleichnamige Brüche', hint: 'Der Nenner bleibt gleich.', visual: 'expression', equation: '1/4 + 2/4', answers: ['3/8', '3/4', '2/4'], correct: 1, tip: 'Addiere die Zähler 1 + 2. Der gemeinsame Nenner 4 bleibt.' },
+    { type: 'ADDIEREN', title: 'Mache die Brüche zuerst gleichnamig', hint: '1/6 passt auch zum Nenner 6.', visual: 'expression', equation: '2/3 + 1/6', answers: ['3/9', '5/6', '3/6'], correct: 1, tip: '2/3 sind 4/6. Zusammen mit 1/6 ergibt das 5/6.' },
+    { type: 'SUBTRAHIEREN', title: 'Subtrahiere und kürze', hint: 'Ziehe erst die Zähler voneinander ab.', visual: 'expression', equation: '7/8 − 3/8', answers: ['1/2', '4/5', '3/8'], correct: 0, tip: '7/8 − 3/8 = 4/8. Vollständig gekürzt ist das 1/2.' },
+    { type: 'ADDIEREN', title: 'Addiere gleichnamige Brüche', hint: 'Die Nenner bleiben unverändert.', visual: 'expression', equation: '3/7 + 2/7', answers: ['5/14', '5/7', '1/7'], correct: 1, tip: '3 + 2 = 5. Der gemeinsame Nenner bleibt 7.' },
+    { type: 'SUBTRAHIEREN', title: 'Mache zuerst gleichnamig', hint: 'Wandle 1/3 in Sechstel um.', visual: 'expression', equation: '5/6 − 1/3', answers: ['4/3', '1/2', '4/6'], correct: 1, tip: '1/3 = 2/6. 5/6 − 2/6 = 3/6 = 1/2.' },
+    { type: 'UMWANDELN', title: 'Mache daraus einen unechten Bruch', hint: 'Zwei Ganze sind acht Viertel.', visual: 'expression', equation: '2 1/4 = ?', answers: ['3/4', '8/4', '9/4'], correct: 2, tip: '2 Ganze sind 8/4. Plus 1/4 ergibt 9/4.' },
+    { type: 'ANTEIL BERECHNEN', title: 'Was sind 3/5 von 20?', hint: 'Teile 20 zuerst durch 5.', visual: 'expression', equation: '3/5 von 20', answers: ['12', '15', '4'], correct: 0, tip: '20 : 5 = 4 und 4 · 3 = 12.' },
+    { type: 'FINALE', title: 'Welcher Bruch ist 0,75?', hint: '75 Hundertstel lassen sich kürzen.', visual: 'expression', equation: '0,75 = ?', answers: ['3/4', '7/5', '1/4'], correct: 0, tip: '0,75 = 75/100. Gekürzt durch 25 ergibt das 3/4.' }
+  ],
+  7: [
+    { type: 'MULTIPLIZIEREN', title: 'Multipliziere die Brüche', hint: 'Zähler mal Zähler, Nenner mal Nenner – danach kürzen.', visual: 'expression', equation: '2/3 · 3/4', answers: ['1/2', '6/7', '2/4'], correct: 0, tip: '6/12 lässt sich vollständig zu 1/2 kürzen.' },
+    { type: 'DIVIDIEREN', title: 'Teile durch einen Bruch', hint: 'Multipliziere mit dem Kehrwert des zweiten Bruchs.', visual: 'expression', equation: '5/6 : 10/9', answers: ['3/4', '4/3', '1/2'], correct: 0, tip: '5/6 · 9/10 = 45/60 = 3/4.' },
+    { type: 'NEGATIVE BRÜCHE', title: 'Welcher Wert ist größer?', hint: 'Auf der Zahlengeraden ist weiter rechts immer größer.', visual: 'compare', fractions: ['−2/3', '−3/4'], answers: ['−2/3', 'Gleich groß', '−3/4'], correct: 0, tip: '−2/3 liegt näher an null als −3/4 und ist deshalb größer.' },
+    { type: 'ADDIEREN', title: 'Rechne mit Vorzeichen', hint: 'Die Nenner sind schon gleich.', visual: 'expression', equation: '−3/5 + 1/5', answers: ['−4/5', '−2/5', '2/5'], correct: 1, tip: '−3 + 1 = −2. Der Nenner bleibt 5.' },
+    { type: 'GEMISCHTE ZAHL', title: 'Rechne mit einer gemischten Zahl', hint: 'Wandle 1 1/2 zuerst in 3/2 um.', visual: 'expression', equation: '1 1/2 · 2/3', answers: ['1', '3/5', '2'], correct: 0, tip: '3/2 · 2/3 = 6/6 = 1.' },
+    { type: 'MULTIPLIZIEREN', title: 'Kürze geschickt vor dem Rechnen', hint: '15 und 5 sowie 4 und 8 lassen sich kürzen.', visual: 'expression', equation: '4/5 · 15/8', answers: ['3/2', '60/13', '2/3'], correct: 0, tip: '4/8 = 1/2 und 15/5 = 3. Übrig bleibt 3/2.' },
+    { type: 'DIVIDIEREN', title: 'Multipliziere mit dem Kehrwert', hint: 'Der Kehrwert von 1/2 ist 2/1.', visual: 'expression', equation: '3/4 : 1/2', answers: ['3/8', '3/2', '2/3'], correct: 1, tip: '3/4 · 2/1 = 6/4 = 3/2.' },
+    { type: 'VORZEICHEN', title: 'Subtrahiere einen positiven Bruch', hint: 'Mache aus 1/2 zuerst 2/4.', visual: 'expression', equation: '−1/2 − 1/4', answers: ['−1/4', '−3/4', '3/4'], correct: 1, tip: '−2/4 − 1/4 = −3/4.' },
+    { type: 'KEHRWERT', title: 'Wie lautet der Kehrwert?', hint: 'Vertausche Zähler und Nenner.', visual: 'number', fraction: '7/9', answers: ['9/7', '−7/9', '2/16'], correct: 0, tip: 'Beim Kehrwert von 7/9 werden Zähler und Nenner vertauscht: 9/7.' },
+    { type: 'FINALE', title: 'Berechne den Anteil', hint: 'Teile 48 durch 8 und nimm davon fünf Teile.', visual: 'expression', equation: '5/8 von 48', answers: ['30', '35', '28'], correct: 0, tip: '48 : 8 = 6 und 6 · 5 = 30.' }
+  ],
+  8: [
+    { type: 'GLEICHUNG', title: 'Bestimme x', hint: 'Multipliziere beide Seiten mit 4.', visual: 'expression', equation: 'x/4 = 3/5', answers: ['12/5', '3/20', '7/5'], correct: 0, tip: 'x = 4 · 3/5 = 12/5.' },
+    { type: 'KLAMMER', title: 'Beachte die Reihenfolge', hint: 'Rechne zuerst in der Klammer.', visual: 'expression', equation: '(3/4 + 1/2) · 2', answers: ['5/2', '7/4', '2'], correct: 0, tip: '1/2 = 2/4. In der Klammer stehen 5/4, mal 2 ergibt 5/2.' },
+    { type: 'BRUCHTERM', title: 'Kürze den Term', hint: '6 und 9 haben einen gemeinsamen Teiler.', visual: 'expression', equation: '6x/9', answers: ['2x/3', '3x/2', '2x/9'], correct: 0, tip: 'Teile Zähler und Nenner durch 3: 6x/9 = 2x/3.' },
+    { type: 'PROZENT-CHECK', title: 'Wie viel Prozent sind 7/8?', hint: 'Berechne 7 : 8 und multipliziere mit 100.', visual: 'number', fraction: '7/8', answers: ['78 %', '87,5 %', '80 %'], correct: 1, tip: '7 : 8 = 0,875. Das sind 87,5 %.' },
+    { type: 'GLEICHUNG', title: 'Löse die Bruchgleichung', hint: 'Multipliziere beide Seiten zuerst mit 6.', visual: 'expression', equation: 'x/3 + 1/6 = 5/6', answers: ['2', '4/3', '5/3'], correct: 0, tip: '2x + 1 = 5, also 2x = 4 und x = 2.' },
+    { type: 'GLEICHUNG', title: 'Befreie den Term vom Nenner', hint: 'Multipliziere beide Seiten mit 3.', visual: 'expression', equation: '(x − 1)/3 = 2', answers: ['5', '7', '3'], correct: 1, tip: 'x − 1 = 6. Addiere 1 und du erhältst x = 7.' },
+    { type: 'GLEICHUNG', title: 'Bestimme den Nenner x', hint: 'Kreuzmultiplizieren hilft.', visual: 'expression', equation: '2/x = 1/4', answers: ['6', '8', '2'], correct: 1, tip: '2 · 4 = x · 1, also ist x = 8.' },
+    { type: 'BRUCHTERM', title: 'Vereinfache für x ≠ 0', hint: 'Ein Faktor x steht oben und unten.', visual: 'expression', equation: '3x²/6x', answers: ['x/2', 'x/3', '3x/6'], correct: 0, tip: 'Kürze x und teile 3 durch 6. Übrig bleibt x/2.' },
+    { type: 'SACHRECHNEN', title: 'Finde die ganze Zahl', hint: 'Drei Viertel einer Zahl ergeben 24.', visual: 'expression', equation: '3/4 · x = 24', answers: ['18', '32', '36'], correct: 1, tip: '24 : 3 · 4 = 32.' },
+    { type: 'FINALE', title: 'Wandle in Prozent um', hint: 'Berechne 3 : 8 und multipliziere mit 100.', visual: 'number', fraction: '3/8', answers: ['37,5 %', '38 %', '62,5 %'], correct: 0, tip: '3 : 8 = 0,375. Das entspricht 37,5 %.' }
+  ]
+};
+
+const gradeContent = {
+  5: { level: 'GRUNDLAGEN', title: 'Brüche verstehen', description: 'Teile erkennen, darstellen und einfache Brüche vergleichen.', lessons: '12 Lektionen', quest: 'Zeig, wie sicher du Bruchteile schon erkennst.', intro: 'Zähle zuerst alle Teile und dann die markierten. Ganz ruhig – du packst das!' },
+  6: { level: 'RECHNEN', title: 'Mit Brüchen rechnen', description: 'Kürzen, erweitern, addieren und subtrahieren.', lessons: '14 Lektionen', quest: 'Rechne dich durch Kürzen, Erweitern, Plus und Minus.', intro: 'Suche den größten gemeinsamen Teiler. Damit wird der Bruch sofort übersichtlicher!' },
+  7: { level: 'FORTGESCHRITTEN', title: 'Brüche & Vorzeichen', description: 'Multiplizieren, dividieren und negative Brüche meistern.', lessons: '13 Lektionen', quest: 'Stelle dich Produkten, Quotienten und negativen Brüchen.', intro: 'Die Regel kennst du: Zähler mal Zähler, Nenner mal Nenner. Danach clever kürzen!' },
+  8: { level: 'BRUCHTERME', title: 'Bruchterme & Gleichungen', description: 'Bruchterme vereinfachen und Gleichungen lösen.', lessons: '11 Lektionen', quest: 'Knacke Bruchterme, Prozente und Gleichungen.', intro: 'Behandle den Bruch wie eine Gleichung: dieselbe Operation auf beiden Seiten. Los geht’s!' }
+};
+
+$('#gradeSelect').value = String(progress.selectedGrade || 5);
+let selectedGrade = Number($('#gradeSelect').value);
+let activeSubject = 'all';
+let questions = questionsByGrade[selectedGrade];
 let currentQuestion = 0, score = 0, correctCount = 0, currentStreak = 0, bestStreak = 0, answered = false;
+
+function updateGradeContent() {
+  selectedGrade = Number($('#gradeSelect').value);
+  progress.selectedGrade = selectedGrade;
+  saveProgress();
+  questions = questionsByGrade[selectedGrade];
+  const content = gradeContent[selectedGrade];
+  $('#adventureGrade').textContent = `KLASSE ${selectedGrade}`;
+  $('#adventureSubtitle').textContent = content.description;
+  $('#levelPill').textContent = content.level;
+  $('#fractionTopicLabel').textContent = `MATHE · KLASSE ${selectedGrade}`;
+  $('#fractionTopicTitle').textContent = content.title;
+  $('#fractionTopicDescription').textContent = content.description;
+  $('#fractionLessonCount').textContent = content.lessons;
+  $('#continueContext').textContent = `MATHE · KLASSE ${selectedGrade} · WEITERMACHEN`;
+  $('#continueTitle').textContent = content.title;
+  $('#continueSubtitle').textContent = `${content.level.charAt(0)}${content.level.slice(1).toLowerCase()} · Quiz mit ${questions.length} Aufgaben`;
+  $('#stationContextLabel').textContent = `MATHE · BRÜCHE · KLASSE ${selectedGrade}`;
+  $('#questGradeLabel').textContent = `QUIZ-QUEST · KLASSE ${selectedGrade}`;
+  $('#questDescription').textContent = content.quest;
+  $('#lessonLevelLabel').textContent = `BRÜCHE · KLASSE ${selectedGrade} · ${content.level}`;
+  applyDashboardFilters();
+}
+
+function applyDashboardFilters() {
+  $$('.topic-card').forEach(card => {
+    const subjectMatches = activeSubject === 'all' || card.dataset.subject === activeSubject;
+    const gradeMatches = !card.dataset.grades || card.dataset.grades.split(',').includes(String(selectedGrade));
+    card.classList.toggle('hidden', !subjectMatches || !gradeMatches);
+  });
+  $('#mathAdventure').classList.toggle('hidden', activeSubject !== 'all' && activeSubject !== 'mathe');
+}
+
+function openMathLearning() {
+  activeSubject = 'mathe';
+  $$('.subject-tab').forEach(tab => {
+    const selected = tab.dataset.filter === 'mathe';
+    tab.classList.toggle('active', selected);
+    tab.setAttribute('aria-selected', String(selected));
+  });
+  applyDashboardFilters();
+  $('#mathAdventure').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function startLesson() {
+  questions = questionsByGrade[selectedGrade];
   visitStation('quest'); currentQuestion = 0; score = 0; correctCount = 0; currentStreak = 0; bestStreak = 0;
   $('#scoreValue').textContent = '0'; $('#lessonStreak').textContent = '0'; showView('lesson'); renderQuestion();
 }
@@ -243,6 +343,7 @@ function renderVisual(question) {
   const visual = $('#visualQuestion');
   if (question.visual === 'tiles') visual.innerHTML = `<div class="fraction-grid" style="--cols:${question.cols}">${Array.from({ length: question.total }, (_, index) => `<span class="fraction-tile ${index < question.filled ? 'filled' : ''}"></span>`).join('')}</div>`;
   else if (question.visual === 'number') visual.innerHTML = fractionHTML(question.fraction);
+  else if (question.visual === 'expression') visual.innerHTML = `<div class="math-expression">${question.equation}</div>`;
   else visual.innerHTML = `<div class="fraction-display">${fractionHTML(question.fractions[0])}<span class="compare-sign">${question.visual === 'compareEqual' ? '=' : 'oder'}</span>${question.fractions[1] === '?' ? '<div class="fraction-number">?</div>' : fractionHTML(question.fractions[1])}</div>`;
 }
 function renderQuestion() {
@@ -250,7 +351,19 @@ function renderQuestion() {
   $('#roundLabel').textContent = `${currentQuestion + 1} / ${questions.length}`;
   $('#lessonProgressBar').style.width = `${(currentQuestion + 1) / questions.length * 100}%`;
   $('#exerciseType').textContent = question.type; $('#lessonTitle').textContent = question.title; $('#exerciseHint').textContent = question.hint;
-  $('#tutorText').textContent = ['Ein Bruch zeigt Teile von einem Ganzen. Du packst das!', 'Bleib neugierig – jeder Versuch macht dich sicherer.', 'Oha, jetzt wird es spannend! Denk in kleinen Schritten.', 'Du bist schon weit gekommen. Volle Konzentration!', 'Letzte Aufgabe – zeig, was in dir steckt!'][currentQuestion];
+  const tutorPrompts = [
+    gradeContent[selectedGrade].intro,
+    'Bleib neugierig – jeder Versuch macht dich sicherer.',
+    'Oha, jetzt wird es spannend! Denk in kleinen Schritten.',
+    'Drei geschafft! Dein Gehirn ist schon warmgelaufen.',
+    'Fast Halbzeit – bleib locker und schau genau hin.',
+    'Halbzeit! Atme kurz durch. Du machst das richtig gut.',
+    'Jetzt kommt dein Bruchwissen richtig in Fahrt!',
+    'Nur noch drei. Fehler sind erlaubt, Aufgeben nicht nötig.',
+    'Vorletzte Aufgabe – du bist stärker als am Anfang.',
+    'Finale! Zeig der letzten Aufgabe, was du kannst.'
+  ];
+  $('#tutorText').textContent = tutorPrompts[currentQuestion];
   $('#lessonMascot').classList.remove('sad'); $('#feedback').className = 'feedback'; renderVisual(question);
   $('#answers').innerHTML = question.answers.map((answer, index) => `<button class="answer-button" data-answer="${index}">${answer.includes('/') ? fractionHTML(answer) : answer}</button>`).join('');
   $$('[data-answer]', $('#answers')).forEach(button => button.addEventListener('click', () => checkAnswer(Number(button.dataset.answer))));
@@ -277,8 +390,9 @@ function nextQuestion() {
   if (!answered) return;
   if (currentQuestion < questions.length - 1) { currentQuestion++; renderQuestion(); return; }
   $('#resultCorrect').textContent = `${correctCount}/${questions.length}`; $('#resultXp').textContent = score; $('#bestStreak').textContent = bestStreak;
-  $('#resultTitle').textContent = correctCount === 5 ? 'Du Bruch-Profi!' : correctCount >= 3 ? 'Richtig starke Runde!' : 'Mutig drangeblieben!';
-  $('#resultMessage').textContent = correctCount === 5 ? 'Alles richtig! Dein Bruch-Wissen sitzt heute bombenfest.' : 'Jeder Versuch macht dich besser. Du hast heute echtes Gehirntraining geleistet!';
+  const perfectRound = correctCount === questions.length;
+  $('#resultTitle').textContent = perfectRound ? 'Du Bruch-Profi!' : correctCount >= Math.ceil(questions.length * .6) ? 'Richtig starke Runde!' : 'Mutig drangeblieben!';
+  $('#resultMessage').textContent = perfectRound ? 'Alles richtig! Dein Bruch-Wissen sitzt heute bombenfest.' : 'Jeder Versuch macht dich besser. Du hast heute echtes Gehirntraining geleistet!';
   awardXp(score); unlockBadge('quest'); createConfetti(); showView('result'); playTone(720, .3);
 }
 function createConfetti() {
@@ -298,7 +412,7 @@ $('#backButton').addEventListener('click', () => showView('dashboard'));
 $('#stationBackButton').addEventListener('click', () => showView('dashboard'));
 $('#resultHomeButton').addEventListener('click', () => showView('dashboard'));
 $('#continueButton').addEventListener('click', startLesson);
-$$('[data-start]').forEach(button => button.addEventListener('click', startLesson));
+$$('[data-open-math]').forEach(button => button.addEventListener('click', openMathLearning));
 $('#againButton').addEventListener('click', startLesson); $('#nextButton').addEventListener('click', nextQuestion); $('#questStartButton').addEventListener('click', startLesson);
 $$('[data-station]').forEach(button => button.addEventListener('click', () => openStation(button.dataset.station)));
 $$('[data-station-tab]').forEach(button => button.addEventListener('click', () => switchStation(button.dataset.stationTab)));
@@ -320,8 +434,10 @@ $$('[data-duel]').forEach(button => button.addEventListener('click', () => answe
 $$('.subject-tab').forEach(tab => tab.addEventListener('click', () => {
   $$('.subject-tab').forEach(item => { item.classList.remove('active'); item.setAttribute('aria-selected', 'false'); });
   tab.classList.add('active'); tab.setAttribute('aria-selected', 'true');
-  $$('.topic-card').forEach(card => card.classList.toggle('hidden', tab.dataset.filter !== 'all' && card.dataset.subject !== tab.dataset.filter));
+  activeSubject = tab.dataset.filter;
+  applyDashboardFilters();
 }));
+$('#gradeSelect').addEventListener('change', updateGradeContent);
 $$('[data-soon]').forEach(button => button.addEventListener('click', () => showToast('✨ Bald verfügbar!', 'Dieses Abenteuer bauen wir gerade für dich.')));
 $('#profileButton').addEventListener('click', () => showToast('Hallo Alex! 👋', `${progress.totalXp} XP und ${progress.badges.length} Abzeichen gesammelt.`));
 $('#badgeButton').addEventListener('click', openBadges); $('#badgeCloseButton').addEventListener('click', () => $('#badgeDialog').close()); $('#badgeDoneButton').addEventListener('click', () => $('#badgeDialog').close());
@@ -330,3 +446,4 @@ $('#badgeDialog').addEventListener('click', event => { if (event.target === $('#
 // Initial state
 $('#soundButton').classList.toggle('off', !progress.soundOn); $('#soundButton').textContent = progress.soundOn ? '♪' : '×';
 updateProgressUI(); updatePizzaOrder(); renderLab(); newDuel();
+updateGradeContent();
