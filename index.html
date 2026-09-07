@@ -8,7 +8,7 @@
     <title>KLUUG – Lernen macht Klick!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -21,6 +21,8 @@
         <span>KLUUG</span>
       </button>
       <div class="top-actions">
+        <div class="xp-pill" title="Deine gesammelten Erfahrungspunkte">⭐ <strong id="headerXp">0</strong><span class="hide-mobile"> XP</span></div>
+        <button class="badge-button" id="badgeButton" aria-label="Abzeichen-Album öffnen">🏆</button>
         <button class="sound-button" id="soundButton" aria-label="Ton ausschalten" aria-pressed="true">♪</button>
         <div class="streak-pill" title="Deine Lernserie">
           <span>🔥</span><strong id="headerStreak">3</strong><span class="hide-mobile"> Tage</span>
@@ -37,14 +39,15 @@
             <h1 id="welcomeTitle">Hey Alex!<br /><span>Was knacken wir heute?</span></h1>
             <p>Du musst nicht alles sofort können. Wir gehen gemeinsam Schritt für Schritt – und feiern jeden Klick im Kopf.</p>
           </div>
-          <div class="mascot-stage" aria-label="Kluug, dein motivierender Lerntutor">
-            <div class="speech-bubble" id="heroSpeech">Ich glaub an dich!<br /><strong>Los geht’s?</strong></div>
-            <div class="mascot happy" id="heroMascot" aria-hidden="true">
+          <div class="mascot-stage" aria-label="Fiete, dein motivierender Lerntutor">
+            <div class="speech-bubble" id="heroSpeech">Moin, ich bin Fiete!<br /><strong>High Five?</strong></div>
+            <button class="mascot happy" id="heroMascot" aria-label="Fiete anklicken für eine Reaktion">
               <div class="ear left"></div><div class="ear right"></div>
               <div class="face"><i class="eye left"></i><i class="eye right"></i><i class="mouth"></i></div>
               <div class="mascot-body"><span class="bolt">ϟ</span></div>
               <div class="arm left"></div><div class="arm right"></div>
-            </div>
+            </button>
+            <button class="speak-button" id="heroSpeakButton">🔊 Fiete vorlesen lassen</button>
           </div>
         </div>
 
@@ -68,8 +71,21 @@
           <button class="subject-tab active" data-filter="all" role="tab" aria-selected="true">Alle</button>
           <button class="subject-tab" data-filter="mathe" role="tab">Mathe</button>
           <button class="subject-tab" data-filter="deutsch" role="tab">Deutsch</button>
-          <button class="subject-tab" data-filter="natur" role="tab">Natur & Technik</button>
+          <button class="subject-tab" data-filter="natur" role="tab">Natur &amp; Technik</button>
         </div>
+
+        <section class="adventure-section" aria-labelledby="adventureTitle">
+          <div class="adventure-heading">
+            <div><span class="section-kicker">SPIELEND VERSTEHEN</span><h2 id="adventureTitle">Fietes Bruch-Spielplatz</h2><p>Vier Stationen, vier Wege zum Aha-Moment.</p></div>
+            <span class="adventure-counter"><strong id="adventureCount">0</strong>/4 ausprobiert</span>
+          </div>
+          <div class="station-grid">
+            <button class="station-card pizza-station" data-station="pizza"><span class="station-emoji">🍕</span><span><small>STATION 1</small><strong>Pizza-Bäckerei</strong><em>Brüche selbst belegen</em></span><b>→</b></button>
+            <button class="station-card chocolate-station" data-station="lab"><span class="station-emoji">🍫</span><span><small>STATION 2</small><strong>Schoko-Labor</strong><em>Frei experimentieren</em></span><b>→</b></button>
+            <button class="station-card duel-station" data-station="duel"><span class="station-emoji">⚖️</span><span><small>STATION 3</small><strong>Bruch-Duell</strong><em>Größen vergleichen</em></span><b>→</b></button>
+            <button class="station-card quest-station" data-station="quest"><span class="station-emoji">🚀</span><span><small>STATION 4</small><strong>Quiz-Quest</strong><em>Fünf Missionen lösen</em></span><b>→</b></button>
+          </div>
+        </section>
 
         <div class="topic-grid" id="topicGrid">
           <article class="topic-card fraction-card" data-subject="mathe">
@@ -78,7 +94,7 @@
           </article>
           <article class="topic-card" data-subject="mathe">
             <div class="card-art geometry-art"><i></i><i></i><i></i></div>
-            <div class="topic-body"><span class="topic-label">MATHE · GEOMETRIE</span><h3>Formen & Flächen</h3><p>Entdecke Winkel, Flächen und Figuren in deiner Welt.</p><div class="topic-meta"><span>9 Lektionen</span><span>⭐ 180 XP</span></div><button class="card-button secondary" data-soon>Entdecken <span>→</span></button></div>
+            <div class="topic-body"><span class="topic-label">MATHE · GEOMETRIE</span><h3>Formen &amp; Flächen</h3><p>Entdecke Winkel, Flächen und Figuren in deiner Welt.</p><div class="topic-meta"><span>9 Lektionen</span><span>⭐ 180 XP</span></div><button class="card-button secondary" data-soon>Entdecken <span>→</span></button></div>
           </article>
           <article class="topic-card" data-subject="deutsch">
             <div class="card-art words-art"><span>A</span><span>!</span><span>?</span></div>
@@ -86,8 +102,59 @@
           </article>
           <article class="topic-card" data-subject="natur">
             <div class="card-art science-art"><span>⚡</span><i></i></div>
-            <div class="topic-body"><span class="topic-label green">NATUR & TECHNIK</span><h3>Energie-Check</h3><p>Finde heraus, was unsere Welt antreibt und bewegt.</p><div class="topic-meta"><span>7 Lektionen</span><span>⭐ 140 XP</span></div><button class="card-button secondary" data-soon>Entdecken <span>→</span></button></div>
+            <div class="topic-body"><span class="topic-label green">NATUR &amp; TECHNIK</span><h3>Energie-Check</h3><p>Finde heraus, was unsere Welt antreibt und bewegt.</p><div class="topic-meta"><span>7 Lektionen</span><span>⭐ 140 XP</span></div><button class="card-button secondary" data-soon>Entdecken <span>→</span></button></div>
           </article>
+        </div>
+      </section>
+
+      <section id="stationView" class="view station-view" aria-labelledby="stationTitle">
+        <div class="station-topbar">
+          <button class="back-button" id="stationBackButton" aria-label="Zurück zum Bruch-Spielplatz">←</button>
+          <div><span class="section-kicker">FIETES BRUCH-SPIELPLATZ</span><h1 id="stationTitle">Pizza-Bäckerei</h1></div>
+          <div class="xp-pill">⭐ <strong id="stationXp">0</strong> XP</div>
+        </div>
+
+        <div class="station-tabs" role="tablist" aria-label="Lernstationen">
+          <button data-station-tab="pizza" class="active" role="tab">🍕 Pizza</button>
+          <button data-station-tab="lab" role="tab">🍫 Schoko</button>
+          <button data-station-tab="duel" role="tab">⚖️ Duell</button>
+          <button data-station-tab="quest" role="tab">🚀 Quest</button>
+        </div>
+
+        <div class="station-shell">
+          <aside class="fiete-coach">
+            <button class="fiete-face happy" id="stationFiete" aria-label="Fiete anklicken"><span class="fiete-ears">▲ ▲</span><span class="fiete-eyes">●　●</span><span class="fiete-mouth">⌣</span></button>
+            <div class="coach-bubble"><span>FIETE SAGT</span><p id="stationTutorText">Willkommen in meiner Bäckerei! Heute werden Brüche richtig lecker.</p><button id="stationSpeakButton">🔊 Vorlesen</button></div>
+          </aside>
+
+          <div class="station-panel active" id="pizzaPanel" data-panel="pizza">
+            <div class="panel-heading"><span class="panel-icon">🍕</span><div><small>PIZZA-BÄCKEREI</small><h2>Belege die Bestellung</h2><p id="pizzaOrderText">Mia möchte 3 von 4 Stücken mit Käse.</p></div></div>
+            <div class="pizza-workbench">
+              <div class="pizza-wrap"><svg id="pizzaSvg" class="pizza-svg" viewBox="0 0 240 240" aria-label="Anklickbare Pizza"></svg><span class="pizza-fraction" id="pizzaFraction">0/4</span></div>
+              <div class="pizza-controls"><span>Wie viele Stücke?</span><div class="choice-row" id="pizzaDenominators"><button data-denominator="2">2</button><button class="active" data-denominator="4">4</button><button data-denominator="6">6</button><button data-denominator="8">8</button></div><button class="primary-button" id="pizzaCheckButton">Bestellung prüfen</button><button class="text-button" id="pizzaNewButton">↻ Neue Bestellung</button></div>
+            </div>
+            <div class="station-feedback" id="pizzaFeedback" aria-live="polite"></div>
+          </div>
+
+          <div class="station-panel" id="labPanel" data-panel="lab">
+            <div class="panel-heading"><span class="panel-icon">🍫</span><div><small>SCHOKO-LABOR</small><h2>Brich dir deinen Bruch</h2><p>Verändere Zähler und Nenner und beobachte alles gleichzeitig.</p></div></div>
+            <div class="lab-layout">
+              <div><div class="chocolate-bar" id="chocolateBar"></div><div class="number-line"><span>0</span><div class="number-track"><i id="numberMarker"></i></div><span>1</span></div></div>
+              <div class="slider-controls"><label>Nenner: <strong id="labDenominatorValue">8</strong> Teile<input id="labDenominator" type="range" min="2" max="12" value="8" /></label><label>Zähler: <strong id="labNumeratorValue">3</strong> gefärbt<input id="labNumerator" type="range" min="0" max="8" value="3" /></label><div class="lab-equation"><span id="labFraction">3/8</span><b>=</b><span id="labDecimal">0,375</span></div><button class="primary-button" id="labCelebrateButton">Diesen Bruch merken</button></div>
+            </div>
+          </div>
+
+          <div class="station-panel" id="duelPanel" data-panel="duel">
+            <div class="panel-heading"><span class="panel-icon">⚖️</span><div><small>BRUCH-DUELL</small><h2>Welche Seite ist größer?</h2><p>Wähle links, gleich oder rechts – dann kippt die Waage.</p></div></div>
+            <div class="balance-scene"><div class="balance-arm" id="balanceArm"><div class="balance-pan left"><span id="leftFraction">2/3</span></div><div class="balance-pan right"><span id="rightFraction">3/5</span></div></div><div class="balance-stand"></div></div>
+            <div class="duel-answers"><button data-duel="left">Links ist größer</button><button data-duel="equal">Gleich groß</button><button data-duel="right">Rechts ist größer</button></div>
+            <button class="text-button" id="newDuelButton">↻ Neues Duell</button>
+            <div class="station-feedback" id="duelFeedback" aria-live="polite"></div>
+          </div>
+
+          <div class="station-panel" id="questPanel" data-panel="quest">
+            <div class="quest-hero"><span>🚀</span><small>QUIZ-QUEST</small><h2>Bereit für fünf Missionen?</h2><p>Teste dein Wissen, sammle bis zu 100 XP und werde zum Bruch-Profi.</p><div class="quest-map"><i class="done">1</i><b></b><i>2</i><b></b><i>3</i><b></b><i>4</i><b></b><i>5</i></div><button class="primary-button" id="questStartButton">Quest starten →</button></div>
+          </div>
         </div>
       </section>
 
@@ -138,6 +205,13 @@
         </div>
       </section>
     </main>
+
+    <dialog class="badge-dialog" id="badgeDialog">
+      <div class="dialog-heading"><div><span class="section-kicker">DEINE ERFOLGE</span><h2>Abzeichen-Album</h2></div><button id="badgeCloseButton" aria-label="Album schließen">×</button></div>
+      <p>Probiere Stationen aus und entdecke, was du schon alles kannst.</p>
+      <div class="badge-grid" id="badgeGrid"></div>
+      <button class="ghost-button dialog-close" id="badgeDoneButton">Weiterlernen</button>
+    </dialog>
 
     <div class="toast" id="toast" role="status"><span>✨</span><div><strong>Bald verfügbar!</strong><p>Dieses Abenteuer bauen wir gerade für dich.</p></div></div>
     <script src="app.js"></script>

@@ -14,8 +14,12 @@ Danach im Browser `http://localhost:8000` öffnen.
 
 - Themen- und Klassenwahl
 - Fünf interaktive Bruchaufgaben mit visuellen Modellen
-- Direktes, emotionales Tutor-Feedback
-- XP, Lernserie, Fortschritt und Ergebnisbildschirm
+- Fiete als emotionaler Tutor mit High-Five-Reaktionen und deutscher Sprachausgabe
+- Interaktive Pizza-Bäckerei zum Belegen von Bruchteilen
+- Schoko-Labor mit Reglern, Dezimalzahl und dynamischem Zahlenstrahl
+- Animierte Bruch-Waage zum Größenvergleich
+- Quiz-Quest mit fünf Missionen
+- Dauerhaft gespeicherte XP, Lernserie und sechs freischaltbare Abzeichen
 - Tonfeedback mit Ein-/Ausschalter
 - Responsive Darstellung und reduzierte Animation bei entsprechender Systemeinstellung
 - Frameworkfreie Struktur, die leicht um weitere Themenmodule erweitert werden kann
