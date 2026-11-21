@@ -15,13 +15,15 @@ KLUUG ist eine motivierende, interaktive Lern-App für Schülerinnen und Schüle
 
 ## Aktueller Funktionsumfang
 
-- Fächerfilter: Alle, Mathe, Deutsch, Natur & Technik.
-- Klassenwahl: Klassen 5, 6, 7 und 8.
-- Bruch-Lernbereich mit Pizza-Bäckerei, Schoko-Labor, Bruch-Duell und Quiz-Quest.
-- Quiz mit zehn Aufgaben pro Klassenstufe, unmittelbarem Feedback und Ergebnisansicht.
-- Lokale Speicherung von XP, besuchten Stationen und Abzeichen.
-- Sprachausgabe und Ton können ein- und ausgeschaltet werden.
-- Responsive, frameworkfreie Web-App in `index.html`, `styles.css` und `app.js`.
+- Fächerfilter: Alle, Mathe, Deutsch, Englisch, Natur & Technik – alle fünf Themenkarten sind voll interaktiv spielbar.
+- Klassenwahl: Klassen 5, 6, 7 und 8 (dauerhaft gespeichert, wirkt auf alle fünf Fächer und Stationen).
+- **Mathe · Brüche:** Pizza-Bäckerei, Schoko-Labor, Bruch-Duell (mit visuellem Balken-Beweis) und 10er Quiz-Quest (40 Aufgaben).
+- **Mathe · Geometrie (`Formen & Flächen`):** Geometrie-Labor (Winkel-Scanner + Flächen-/Umfangs-Baumeister) und SVG-Quiz (24 Aufgaben).
+- **Deutsch (`Wortarten-Detektive`):** Interaktive Wort-Lupe, Hör-Diktat und Grammatik-/Rechtschreib-Quiz (24 Aufgaben).
+- **Englisch (`English Boost`):** Interaktives Audio-Studio (`en-GB`) und Vokabel-/Grammatik-Quiz (24 Aufgaben).
+- **Natur & Technik (`Energie-Check`):** Interaktives Energie-Labor (Eingangsleistung & Wirkungsgrad für Solar, Wasser, LED, Dynamo) und Energie-/Physik-Quiz (24 Aufgaben).
+- **Quiz & Motivation:** Gemischte Aufgaben/Antworten, umschaltbarer **Profi-Eingabemodus** (+30 XP), adaptiver **Trainings-Tipp / Fokus-Training**, **60-Sekunden-Sprint** (inkl. Ruhemodus), **Fietes Merk-Karten**, Tastaturkürzel (`1`–`3`, `Enter`/`→`), „Zweite Chance“ für Fehler, KLUUG-Level (1–6), Tagesziel (`60 XP`), echte tägliche Lernserie und 15 Abzeichen.
+- **Multi-Profil & Offline-Betrieb:** Geschwister-Wechsler (bis 6 Profile in `kluug-profiles-v1`), Bestleistungen je Fach, Themen-Check, kopierbarer & **druckbarer Lernbericht** (`@media print`), JSON-Backup Export/Import, sicherer Reset, Fiete mit Sprachausgabe (`AudioContext`-Singleton), native System-Schriftarten ohne externe Anfragen sowie PWA-Manifest + Service Worker (`sw.js`).
 
 ## Strukturentscheidung vom 7. September 2026
 
@@ -73,11 +75,9 @@ Immer kurz ergänzen:
 
 ## Noch offen
 
-- Deutsch, Geometrie sowie Natur & Technik sind bislang Vorschauen ohne vollständige Aufgaben.
-- Nutzerprofil und echte Lernstandsdiagnostik sind noch nicht umgesetzt.
-- Die Klassenstufe wird lokal gespeichert und beim nächsten Besuch wiederhergestellt.
-- Die Lernstationen verwenden derzeit noch weitgehend dieselbe Schwierigkeit für alle Klassen; später sollen auch Pizza, Schoko-Labor und Duell klassenabhängig werden.
-- Inhalte, Gestaltung, Tutorreaktionen und Aufgaben sollen später mit Kindern praktisch getestet und auf Verständlichkeit geprüft werden.
+- Optionale Einbindung eigener `.woff2`-Webfonts (`Manrope`/`Space Grotesk`), falls über den nativen System-Font-Stack hinaus eine einheitliche Webfont gewünscht ist.
+- Weiterer Ausbau zusätzlicher Themen pro Fach (z. B. Leseverständnis-Langtexte, Biologie/Ökosysteme, Terme & Funktionen).
+- Praktischer Test der Inhalte, Tutorreaktionen und Aufgaben mit Schülerinnen und Schülern der Klassen 5–8.
 
 ## Änderungsprotokoll
 
@@ -106,3 +106,35 @@ Immer kurz ergänzen:
 - Die Klassenwahl wird im Browser gespeichert.
 - Lokal geprüft: Aufgaben der Klassen 5–8, Fachfilter, gespeicherte Klassenwahl und JavaScript-Konsole ohne Fehler.
 - Zusammen mit dieser Projektnotiz zu GitHub übertragen.
+
+### 21. November 2026 – Klassenabhängige Stationen, Bugfixes, Diagnostik & Modularisierung
+
+- **Code-Struktur & Wartbarkeit:** `app.js` ohne Framework/Build-Step in ES-Module aufgeteilt (`data/fractions.js`, `src/core/{math,state,store,audio,ui}.js`, `src/stations/{pizza,lab,duel,quest}.js`, `src/profile.js`), `styles.css` sauber formatiert und Hash-Verlauf (`#dashboard`, `#station/*`, `#lesson`) plus WAI-ARIA-Pfeiltastennavigation ergänzt.
+- **Bugfixes & Accessibility:** Fokusverlust in der Pizza-Bäckerei durch gezielte SVG-Attribut-Updates statt `innerHTML`-Neuaufbau behoben, `AudioContext` als Singleton umgesetzt, Textextraktion für Sprachausgabe (`<br>`-Abstände, Mathe-Operatoren) bereinigt, `body { overflow-x: clip; }` für funktionierendes `position: sticky` genutzt und Mobile-Layouts (sichtbare XP/Serie, responsive Quest-Map ohne Überlauf) korrigiert.
+- **Didaktik & Klassenbezug (Klassen 5–8):** Pizza-Bestellungen (direkt / Erweitern / Rechnen / Prozent, inkl. ganzer Pizza und neuer Bestellung bei Nennerwechsel), Schoko-Labor (Prozente, gleichwertige Brüche, Zahlenstrahl-Marken, 12 Forscher-Aufgaben), Bruch-Duell (gleichwertige/negative/unechte Brüche & Prozente plus Balken-Beweis nach Auflösung) und Quiz-Quest (gemischte Aufgaben/Antworten, echte gestapelte Inline-Brüche in Termen, Fiete-Tutor mit Vorlese-Button im Quiz, Themen-Auswertung und „Zweite Chance“-Wiederholung) umgesetzt.
+- **Fortschritt & Profil:** Dynamischer Fortschritt auf Weitermachen-Karte und Quest-Map, echte tägliche Lernserie (`lastActiveDate`/`streakDays`), Profil-Dialog (eigener Name, Bestleistungen je Klasse, Themen-Check, zweistufiger Reset) sowie ehrliche Vorschau-Kennzeichnung der offenen Fächer ergänzt.
+- **Lokal geprüft:** `tests/run_tests.mjs` (2154 Assertions), `tests/smoke_boot.mjs`, HTML/CSS-Strukturcheck sowie DOM-ID- und ES-Modul-Import-Prüfung ohne Fehler bestanden (noch nicht zu GitHub gepusht).
+
+### 21. November 2026 – Ausbau auf alle 4 Lernwelten, Level/Tagesziel, Backup & PWA
+
+- **Alle 4 Fächer aktiv (112 Aufgaben + 7 Werkstätten):** Die bisherigen Vorschaukarten `Formen & Flächen` (Geometrie), `Wortarten-Detektive` (Deutsch) und `Energie-Check` (Natur & Technik) wurden vollständig mit eigenen interaktiven Laboren (`src/stations/{geometryLab,wordsLab,scienceLab}.js`) und je 24 klassenspezifischen Aufgaben für die Klassen 5–8 (`data/{geometry,words,science,subjects}.js`) ausgebaut.
+- **Quiz-Engine & Bedienung:** Unterstützt nun SVG-Geometrieformen, Satz-Markierungen und Energiefluss-Karten sowie Tastaturkürzel (`1`–`3` zum Antworten, `Enter`/`ArrowRight` für „Weiter“).
+- **Motivation & Portabilität:** KLUUG-Level-System (Level 1–6), Tagesziel (`60 XP`), insgesamt 9 fächerübergreifende Abzeichen (`geometry`, `words`, `science` ergänzt), dynamische Weitermachen-Karte für das zuletzt genutzte Fach sowie JSON-Export/Import des Lernstands im Profil-Dialog umgesetzt.
+- **PWA-Basis:** `manifest.webmanifest`, `assets/icon.svg` und Service Worker (`sw.js`) für Offline-Caching ergänzt.
+- **Lokal geprüft:** `tests/run_tests.mjs` (2278 Assertions), `tests/smoke_boot.mjs` (inkl. aller 4 Fächer), HTML/CSS/Manifest/Service-Worker-Asset-Prüfung und ES-Modul-Imports ohne Fehler bestanden (noch nicht zu GitHub gepusht).
+
+### 21. November 2026 – Profi-Eingabemodus, Blitz-Sprint, Merk-Karten & Adaptive Fokus-Übungen
+
+- **Profi-Eingabemodus (`src/core/math.js`, `src/stations/quest.js`):** Umschaltbarer Eingabemodus für Rechen-, Bruch-, Gleichungs-, Geometrie- und Physik-Aufgaben mit toleranter Normalisierung (Brüche, Vorzeichen, Komma/Punkt, optionale Einheiten, `x=`-Präfixe), mobilen Mathe-Schnelltasten und +30 XP.
+- **Adaptiver Lernvorschlag & Fokus-Training (`src/core/state.js`, `data/subjects.js`):** `getSmartRecommendation` erkennt Themen unter 70 % Trefferquote in `topicStatsByGrade` und startet mit einem Klick gezielte Fokus-Runden (`startFocusLesson`).
+- **60-Sekunden-Sprint & Merk-Karten (`src/stations/sprint.js`, `data/cheatsheets.js`, `src/cheatsheets.js`):** Endloser, klassenspezifischer Kopf-Sprint mit optionalem Ruhemodus ohne Timer und Klassenrekord sowie filterbare Spickzettel-Karten für alle 4 Fächer.
+- **Abzeichen & Bericht (`src/core/state.js`, `src/profile.js`, `sw.js`):** Auf 12 symmetrische Abzeichen erweitert (`profi`, `sprint`, `dailyGoal`), kopierbaren Lernbericht im Profil ergänzt und Service-Worker-Cache auf `kluug-v3` aktualisiert.
+- **Lokal geprüft:** `tests/run_tests.mjs` (3022 Assertions), `tests/smoke_boot.mjs`, HTML/CSS/Manifest/Service-Worker-Prüfung ohne Fehler bestanden (noch nicht zu GitHub gepusht).
+
+### 21. November 2026 – Multi-Profil, Englisch-Lernwelt, Hör-Diktat, Druckbericht & Offline-Fonts
+
+- **5. Fach Englisch (`data/english.js`, `src/stations/englishLab.js`):** Interaktives Audio-Studio mit `en-GB`-Sprachausgabe sowie 24 klassenspezifische Quizfragen (136 Aufgaben insgesamt über alle 5 Fächer), ergänzt in Merk-Karten, Blitz-Sprint und Fokus-Training.
+- **Deutsch Hör-Diktat (`data/words.js`, `src/stations/wordsLab.js`):** Zweiter Werkstatt-Modus zum Anhören und präzisen Schreiben schwieriger Rechtschreibwörter (inkl. Groß-/Kleinschreibung).
+- **Multi-Profil-Vault (`src/core/state.js`, `src/core/store.js`, `src/profile.js`):** Geschwister-Wechsler (`kluug-profiles-v1`) für bis zu 6 Profile mit automatischer Migration aus `kluug-progress`, 15 Abzeichen (`english`, `dictation`, `allSubjects` ergänzt) und druckbarem Wochenbericht (`@media print`).
+- **Offline- & Datenschutz-Hygiene (`index.html`, `styles.css`, `sw.js`):** Externe Google-Fonts-Einbindung durch nativen geometrischen System-Font-Stack ersetzt (0 externe Requests) und Service Worker auf `kluug-v4` aktualisiert.
+- **Lokal geprüft:** `tests/run_tests.mjs` (3191 Assertions), `tests/smoke_boot.mjs`, HTML/CSS/Manifest/Service-Worker-Prüfung ohne Fehler bestanden.

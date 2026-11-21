@@ -1,0 +1,19 @@
+{
+  "name": "KLUUG – Lernen macht Klick!",
+  "short_name": "KLUUG",
+  "description": "Motivierende Lern-App für die Klassen 5–8: Brüche, Geometrie, Deutsch sowie Natur & Technik.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fbfaff",
+  "theme_color": "#5b4cf0",
+  "lang": "de",
+  "icons": [
+    {
+      "src": "./assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

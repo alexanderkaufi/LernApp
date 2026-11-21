@@ -4,11 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#5b4cf0" />
-    <meta name="description" content="KLUUG – motivierend Brüche und andere Schulthemen lernen." />
+    <meta name="description" content="KLUUG – motivierend Brüche, Geometrie, Deutsch, Englisch sowie Natur &amp; Technik lernen." />
     <title>KLUUG – Lernen macht Klick!</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/svg+xml" href="./assets/icon.svg" />
+    <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -16,18 +15,21 @@
     <div class="ambient ambient-two"></div>
 
     <header class="topbar">
-      <button class="brand" id="homeButton" aria-label="Zur Startseite">
+      <button class="brand" id="homeButton" type="button" aria-label="Zur Startseite">
         <span class="brand-mark">K</span>
         <span>KLUUG</span>
       </button>
       <div class="top-actions">
-        <div class="xp-pill" title="Deine gesammelten Erfahrungspunkte">⭐ <strong id="headerXp">0</strong><span class="hide-mobile"> XP</span></div>
-        <button class="badge-button" id="badgeButton" aria-label="Abzeichen-Album öffnen">🏆</button>
-        <button class="sound-button" id="soundButton" aria-label="Ton ausschalten" aria-pressed="true">♪</button>
-        <div class="streak-pill" title="Deine Lernserie">
-          <span>🔥</span><strong id="headerStreak">3</strong><span class="hide-mobile"> Tage</span>
+        <div class="xp-pill" title="Deine gesammelten Erfahrungspunkte">
+          ⭐ <strong id="headerXp">0</strong><span class="hide-mobile"> XP</span>
         </div>
-        <button class="avatar-button" id="profileButton" aria-label="Profil öffnen">AK</button>
+        <button class="badge-button" id="cheatButton" type="button" aria-label="Fietes Merk-Karten öffnen" title="Fietes Merk-Karten">📖</button>
+        <button class="badge-button" id="badgeButton" type="button" aria-label="Abzeichen-Album öffnen" title="Abzeichen-Album">🏆</button>
+        <button class="sound-button" id="soundButton" type="button" aria-label="Ton ausschalten" aria-pressed="true">♪</button>
+        <div class="streak-pill" title="Deine tägliche Lernserie">
+          <span>🔥</span><strong id="headerStreak">0</strong><span class="hide-mobile"> Tage</span>
+        </div>
+        <button class="avatar-button" id="profileButton" type="button" aria-label="Profil öffnen">AL</button>
       </div>
     </header>
 
@@ -36,159 +38,649 @@
         <div class="hero-grid">
           <div class="hero-copy">
             <span class="eyebrow"><span class="pulse-dot"></span> Bereit für heute?</span>
-            <h1 id="welcomeTitle">Hey Alex!<br /><span>Was knacken wir heute?</span></h1>
+            <h1 id="welcomeTitle">Hey <b id="heroUserName">Alex</b>!<br /><span>Was knacken wir heute?</span></h1>
             <p>Du musst nicht alles sofort können. Wir gehen gemeinsam Schritt für Schritt – und feiern jeden Klick im Kopf.</p>
           </div>
           <div class="mascot-stage" aria-label="Fiete, dein motivierender Lerntutor">
             <div class="speech-bubble" id="heroSpeech">Moin, ich bin Fiete!<br /><strong>High Five?</strong></div>
-            <button class="mascot happy" id="heroMascot" aria-label="Fiete anklicken für eine Reaktion">
-              <div class="ear left"></div><div class="ear right"></div>
+            <button class="mascot happy" id="heroMascot" type="button" aria-label="Fiete anklicken für eine Reaktion">
+              <div class="ear left"></div>
+              <div class="ear right"></div>
               <div class="face"><i class="eye left"></i><i class="eye right"></i><i class="mouth"></i></div>
               <div class="mascot-body"><span class="bolt">ϟ</span></div>
-              <div class="arm left"></div><div class="arm right"></div>
+              <div class="arm left"></div>
+              <div class="arm right"></div>
             </button>
-            <button class="speak-button" id="heroSpeakButton">🔊 Fiete vorlesen lassen</button>
+            <button class="speak-button" id="heroSpeakButton" type="button" aria-pressed="false">🔊 Fiete vorlesen lassen</button>
+          </div>
+        </div>
+
+        <div class="status-strip" aria-label="Level und Tagesziel">
+          <div class="status-card">
+            <div class="status-card-top">
+              <strong id="heroLevelText">✨ Level 1 · Neugier-Funke</strong>
+              <span id="heroNextLevelHint">Noch 100 XP bis Level 2</span>
+            </div>
+            <div class="mini-bar"><span id="heroLevelBar" style="width: 0%"></span></div>
+          </div>
+          <div class="status-card">
+            <div class="status-card-top">
+              <strong id="dailyGoalText">🎯 Tagesziel: 0 / 60 XP</strong>
+              <span>Tägliche Routine</span>
+            </div>
+            <div class="mini-bar daily"><span id="dailyGoalBar" style="width: 0%"></span></div>
           </div>
         </div>
 
         <section class="continue-card" aria-labelledby="continueTitle">
-          <div class="continue-icon fraction-symbol"><span>3</span><span>4</span></div>
+          <div class="continue-icon fraction-symbol" id="continueIcon"><span>3</span><span>4</span></div>
           <div class="continue-copy">
             <span class="section-kicker" id="continueContext">MATHE · KLASSE 5 · WEITERMACHEN</span>
             <h2 id="continueTitle">Brüche verstehen</h2>
-            <p id="continueSubtitle">Grundlagen · Runde 2 von 5</p>
-            <div class="progress-line"><span style="width: 38%"></span></div>
+            <p id="continueSubtitle">Grundlagen · Quiz mit 10 Aufgaben · 0/4 Stationen</p>
+            <div class="progress-line"><span id="continueProgressBar" style="width: 6%"></span></div>
           </div>
-          <button class="primary-button" id="continueButton">Weiterlernen <span>→</span></button>
+          <button class="primary-button" id="continueButton" type="button">Weiterlernen <span>→</span></button>
+        </section>
+
+        <section class="smart-tip-row" aria-label="Trainings-Tipp und Blitz-Sprint">
+          <div class="smart-tip-card" id="smartTipBanner">
+            <span class="challenge-badge" id="smartTipBadge">NEUES ENTDECKEN</span>
+            <strong id="smartTipTitle">Starte mit deinem Lieblingsthema</strong>
+            <p id="smartTipDesc">Jede Runde passt sich deiner Klassenstufe an.</p>
+            <button class="secondary-pill-button" id="smartTipButton" type="button">Thema starten →</button>
+          </div>
+          <div class="sprint-promo-card">
+            <span class="challenge-badge">KOPF-CHALLENGE</span>
+            <strong>⚡ 60-Sekunden-Sprint</strong>
+            <p>Kurze Fragen quer durch alle Fächer – mit Ruhemodus ohne Timer.</p>
+            <button class="primary-button compact-btn" id="openSprintButton" type="button">Sprint öffnen →</button>
+          </div>
         </section>
 
         <div class="section-heading">
           <div><span class="section-kicker">DEINE LERNWELT</span><h2>Wähle ein Thema</h2></div>
-          <div class="grade-select-wrap"><label for="gradeSelect">Klasse</label><select id="gradeSelect"><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+          <div class="grade-select-wrap">
+            <label for="gradeSelect">Klasse</label>
+            <select id="gradeSelect">
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+            </select>
+          </div>
         </div>
 
         <div class="subject-tabs" role="tablist" aria-label="Fächer">
-          <button class="subject-tab active" data-filter="all" role="tab" aria-selected="true">Alle</button>
-          <button class="subject-tab" data-filter="mathe" role="tab">Mathe</button>
-          <button class="subject-tab" data-filter="deutsch" role="tab">Deutsch</button>
-          <button class="subject-tab" data-filter="natur" role="tab">Natur &amp; Technik</button>
+          <button class="subject-tab active" data-filter="all" type="button" role="tab" aria-selected="true" tabindex="0">Alle</button>
+          <button class="subject-tab" data-filter="mathe" type="button" role="tab" aria-selected="false" tabindex="-1">Mathe</button>
+          <button class="subject-tab" data-filter="deutsch" type="button" role="tab" aria-selected="false" tabindex="-1">Deutsch</button>
+          <button class="subject-tab" data-filter="english" type="button" role="tab" aria-selected="false" tabindex="-1">Englisch</button>
+          <button class="subject-tab" data-filter="natur" type="button" role="tab" aria-selected="false" tabindex="-1">Natur &amp; Technik</button>
         </div>
 
         <section class="adventure-section" id="mathAdventure" data-subject-section="mathe" aria-labelledby="adventureTitle">
           <div class="adventure-heading">
-            <div><span class="section-kicker">MATHE · BRÜCHE · <b id="adventureGrade">KLASSE 5</b></span><h2 id="adventureTitle">Fietes Bruch-Spielplatz</h2><p id="adventureSubtitle">Bruchteile erkennen, darstellen und vergleichen.</p></div>
-            <div class="adventure-status"><span class="level-pill" id="levelPill">GRUNDLAGEN</span><span class="adventure-counter"><strong id="adventureCount">0</strong>/4 ausprobiert</span></div>
+            <div>
+              <span class="section-kicker">MATHE · BRÜCHE · <b id="adventureGrade">KLASSE 5</b></span>
+              <h2 id="adventureTitle">Fietes Bruch-Spielplatz</h2>
+              <p id="adventureSubtitle">Bruchteile erkennen, darstellen und vergleichen.</p>
+            </div>
+            <div class="adventure-status">
+              <span class="level-pill" id="levelPill">GRUNDLAGEN</span>
+              <span class="adventure-counter"><strong id="adventureCount">0</strong>/4 ausprobiert</span>
+            </div>
           </div>
           <div class="station-grid">
-            <button class="station-card pizza-station" data-station="pizza"><span class="station-emoji">🍕</span><span><small>STATION 1</small><strong>Pizza-Bäckerei</strong><em>Brüche selbst belegen</em></span><b>→</b></button>
-            <button class="station-card chocolate-station" data-station="lab"><span class="station-emoji">🍫</span><span><small>STATION 2</small><strong>Schoko-Labor</strong><em>Frei experimentieren</em></span><b>→</b></button>
-            <button class="station-card duel-station" data-station="duel"><span class="station-emoji">⚖️</span><span><small>STATION 3</small><strong>Bruch-Duell</strong><em>Größen vergleichen</em></span><b>→</b></button>
-            <button class="station-card quest-station" data-station="quest"><span class="station-emoji">🚀</span><span><small>STATION 4</small><strong>Quiz-Quest</strong><em>Zehn Missionen lösen</em></span><b>→</b></button>
+            <button class="station-card pizza-station" data-station="pizza" type="button">
+              <span class="station-emoji">🍕</span>
+              <span><small>STATION 1</small><strong>Pizza-Bäckerei</strong><em>Brüche selbst belegen</em></span>
+              <b>→</b>
+            </button>
+            <button class="station-card chocolate-station" data-station="lab" type="button">
+              <span class="station-emoji">🍫</span>
+              <span><small>STATION 2</small><strong>Schoko-Labor</strong><em>Frei experimentieren</em></span>
+              <b>→</b>
+            </button>
+            <button class="station-card duel-station" data-station="duel" type="button">
+              <span class="station-emoji">⚖️</span>
+              <span><small>STATION 3</small><strong>Bruch-Duell</strong><em>Größen vergleichen</em></span>
+              <b>→</b>
+            </button>
+            <button class="station-card quest-station" data-station="quest" type="button">
+              <span class="station-emoji">🚀</span>
+              <span><small>STATION 4</small><strong>Quiz-Quest</strong><em>Zehn Missionen lösen</em></span>
+              <b>→</b>
+            </button>
           </div>
         </section>
 
         <div class="topic-grid" id="topicGrid">
           <article class="topic-card fraction-card" data-subject="mathe" data-grades="5,6,7,8">
             <div class="card-art fraction-art"><div class="pie"><span></span></div><div class="mini-fraction"><b>3</b><b>4</b></div></div>
-            <div class="topic-body"><span class="topic-label" id="fractionTopicLabel">MATHE · KLASSE 5</span><h3 id="fractionTopicTitle">Brüche verstehen</h3><p id="fractionTopicDescription">Teile, kürze und vergleiche Brüche ganz ohne Knoten im Kopf.</p><div class="topic-meta"><span id="fractionLessonCount">12 Lektionen</span><span>⭐ 240 XP</span></div><button class="card-button" data-open-math>Lernwelt öffnen <span>→</span></button></div>
+            <div class="topic-body">
+              <span class="topic-label" id="fractionTopicLabel">MATHE · KLASSE 5</span>
+              <h3 id="fractionTopicTitle">Brüche verstehen</h3>
+              <p id="fractionTopicDescription">Teile, kürze und vergleiche Brüche ganz ohne Knoten im Kopf.</p>
+              <div class="topic-meta"><span id="fractionLessonCount">10 Missionen · 4 Stationen</span><span>⭐ 200+ XP</span></div>
+              <button class="card-button" data-open-math type="button">Lernwelt öffnen <span>→</span></button>
+            </div>
           </article>
+
           <article class="topic-card" data-subject="mathe">
             <div class="card-art geometry-art"><i></i><i></i><i></i></div>
-            <div class="topic-body"><span class="topic-label">MATHE · GEOMETRIE</span><h3>Formen &amp; Flächen</h3><p>Entdecke Winkel, Flächen und Figuren in deiner Welt.</p><div class="topic-meta"><span>9 Lektionen</span><span>⭐ 180 XP</span></div><button class="card-button secondary" data-soon>Entdecken <span>→</span></button></div>
+            <div class="topic-body">
+              <span class="topic-label">MATHE · GEOMETRIE</span>
+              <h3>Formen &amp; Flächen</h3>
+              <p>Entdecke Winkel, Flächen, Dreiecke und Kreise im Geometrie-Labor.</p>
+              <div class="topic-meta"><span id="geometryBestMeta">6 Missionen · Labor</span><span>⭐ 120+ XP</span></div>
+              <div class="card-action-row">
+                <button class="card-button" data-open-lab="geometry" type="button">Werkstatt <span>→</span></button>
+                <button class="card-button secondary" data-start-quiz="geometry" type="button">Quiz</button>
+              </div>
+            </div>
           </article>
+
           <article class="topic-card" data-subject="deutsch">
             <div class="card-art words-art"><span>A</span><span>!</span><span>?</span></div>
-            <div class="topic-body"><span class="topic-label coral">DEUTSCH · SPRACHE</span><h3>Wortarten-Detektive</h3><p>Spüre Nomen, Verben und Adjektive wie ein Profi auf.</p><div class="topic-meta"><span>8 Lektionen</span><span>⭐ 160 XP</span></div><button class="card-button secondary" data-soon>Entdecken <span>→</span></button></div>
+            <div class="topic-body">
+              <span class="topic-label coral">DEUTSCH · SPRACHE</span>
+              <h3>Wortarten-Detektive</h3>
+              <p>Spüre Nomen, Verben und Fälle auf – mit Wort-Lupe und Hör-Diktat.</p>
+              <div class="topic-meta"><span id="wordsBestMeta">6 Missionen · Lupe &amp; Diktat</span><span>⭐ 120+ XP</span></div>
+              <div class="card-action-row">
+                <button class="card-button" data-open-lab="words" type="button">Werkstatt <span>→</span></button>
+                <button class="card-button secondary" data-start-quiz="words" type="button">Quiz</button>
+              </div>
+            </div>
           </article>
+
+          <article class="topic-card" data-subject="english">
+            <div class="card-art english-art"><span>Hi!</span><span>🇬🇧</span></div>
+            <div class="topic-body">
+              <span class="topic-label">ENGLISCH · SPRACHE</span>
+              <h3>English Boost</h3>
+              <p>Höre englische Sätze an und trainiere Vokabeln, Simple Past &amp; If-Clauses.</p>
+              <div class="topic-meta"><span id="englishBestMeta">6 Missionen · Audio-Studio</span><span>⭐ 120+ XP</span></div>
+              <div class="card-action-row">
+                <button class="card-button" data-open-lab="english" type="button">Studio <span>→</span></button>
+                <button class="card-button secondary" data-start-quiz="english" type="button">Quiz</button>
+              </div>
+            </div>
+          </article>
+
           <article class="topic-card" data-subject="natur">
             <div class="card-art science-art"><span>⚡</span><i></i></div>
-            <div class="topic-body"><span class="topic-label green">NATUR &amp; TECHNIK</span><h3>Energie-Check</h3><p>Finde heraus, was unsere Welt antreibt und bewegt.</p><div class="topic-meta"><span>7 Lektionen</span><span>⭐ 140 XP</span></div><button class="card-button secondary" data-soon>Entdecken <span>→</span></button></div>
+            <div class="topic-body">
+              <span class="topic-label green">NATUR &amp; TECHNIK</span>
+              <h3>Energie-Check</h3>
+              <p>Teste Energieumwandlung, Stromkreise und Wirkungsgrade interaktiv.</p>
+              <div class="topic-meta"><span id="scienceBestMeta">6 Missionen · Labor</span><span>⭐ 120+ XP</span></div>
+              <div class="card-action-row">
+                <button class="card-button" data-open-lab="science" type="button">Labor <span>→</span></button>
+                <button class="card-button secondary" data-start-quiz="science" type="button">Quiz</button>
+              </div>
+            </div>
           </article>
         </div>
       </section>
 
       <section id="stationView" class="view station-view" aria-labelledby="stationTitle">
         <div class="station-topbar">
-          <button class="back-button" id="stationBackButton" aria-label="Zurück zum Bruch-Spielplatz">←</button>
-          <div><span class="section-kicker" id="stationContextLabel">MATHE · BRÜCHE · KLASSE 5</span><h1 id="stationTitle">Pizza-Bäckerei</h1></div>
+          <button class="back-button" id="stationBackButton" type="button" aria-label="Zurück zur Lernwelt">←</button>
+          <div>
+            <span class="section-kicker" id="stationContextLabel">MATHE · BRÜCHE · KLASSE 5</span>
+            <h1 id="stationTitle">Pizza-Bäckerei</h1>
+          </div>
           <div class="xp-pill">⭐ <strong id="stationXp">0</strong> XP</div>
         </div>
 
         <div class="station-tabs" role="tablist" aria-label="Lernstationen">
-          <button data-station-tab="pizza" class="active" role="tab">🍕 Pizza</button>
-          <button data-station-tab="lab" role="tab">🍫 Schoko</button>
-          <button data-station-tab="duel" role="tab">⚖️ Duell</button>
-          <button data-station-tab="quest" role="tab">🚀 Quest</button>
+          <button data-station-tab="pizza" type="button" class="active" role="tab" aria-selected="true" aria-controls="pizzaPanel" tabindex="0">🍕 Pizza</button>
+          <button data-station-tab="lab" type="button" role="tab" aria-selected="false" aria-controls="labPanel" tabindex="-1">🍫 Schoko</button>
+          <button data-station-tab="duel" type="button" role="tab" aria-selected="false" aria-controls="duelPanel" tabindex="-1">⚖️ Duell</button>
+          <button data-station-tab="quest" type="button" role="tab" aria-selected="false" aria-controls="questPanel" tabindex="-1">🚀 Quest</button>
         </div>
 
         <div class="station-shell">
           <aside class="fiete-coach">
-            <button class="fiete-face happy" id="stationFiete" aria-label="Fiete anklicken"><span class="fiete-ears">▲ ▲</span><span class="fiete-eyes">●　●</span><span class="fiete-mouth">⌣</span></button>
-            <div class="coach-bubble"><span>FIETE SAGT</span><p id="stationTutorText">Willkommen in meiner Bäckerei! Heute werden Brüche richtig lecker.</p><button id="stationSpeakButton">🔊 Vorlesen</button></div>
+            <button class="fiete-face happy" id="stationFiete" type="button" aria-label="Fiete anklicken">
+              <span class="fiete-ears">▲ ▲</span>
+              <span class="fiete-eyes">●　●</span>
+              <span class="fiete-mouth">⌣</span>
+            </button>
+            <div class="coach-bubble">
+              <span>FIETE SAGT</span>
+              <p id="stationTutorText">Willkommen in meiner Bäckerei! Heute werden Brüche richtig lecker.</p>
+              <button id="stationSpeakButton" type="button" aria-pressed="false">🔊 Vorlesen</button>
+            </div>
           </aside>
 
-          <div class="station-panel active" id="pizzaPanel" data-panel="pizza">
-            <div class="panel-heading"><span class="panel-icon">🍕</span><div><small>PIZZA-BÄCKEREI</small><h2>Belege die Bestellung</h2><p id="pizzaOrderText">Mia möchte 3 von 4 Stücken mit Käse.</p></div></div>
+          <div class="station-panel active" id="pizzaPanel" data-panel="pizza" role="tabpanel">
+            <div class="panel-heading">
+              <span class="panel-icon">🍕</span>
+              <div>
+                <small>PIZZA-BÄCKEREI</small>
+                <h2>Belege die Bestellung</h2>
+                <p id="pizzaOrderText">Mia möchte 3 von 4 Stücken mit Käse.</p>
+              </div>
+            </div>
             <div class="pizza-workbench">
-              <div class="pizza-wrap"><svg id="pizzaSvg" class="pizza-svg" viewBox="0 0 240 240" aria-label="Anklickbare Pizza"></svg><span class="pizza-fraction" id="pizzaFraction">0/4</span></div>
-              <div class="pizza-controls"><span>Wie viele Stücke?</span><div class="choice-row" id="pizzaDenominators"><button data-denominator="2">2</button><button class="active" data-denominator="4">4</button><button data-denominator="6">6</button><button data-denominator="8">8</button></div><button class="primary-button" id="pizzaCheckButton">Bestellung prüfen</button><button class="text-button" id="pizzaNewButton">↻ Neue Bestellung</button></div>
+              <div class="pizza-wrap">
+                <svg id="pizzaSvg" class="pizza-svg" viewBox="0 0 240 240" aria-label="Anklickbare Pizza"></svg>
+                <span class="pizza-fraction" id="pizzaFraction">0/4</span>
+              </div>
+              <div class="pizza-controls">
+                <span>Wie viele Stücke?</span>
+                <div class="choice-row" id="pizzaDenominators">
+                  <button data-denominator="2" type="button" aria-pressed="false">2</button>
+                  <button class="active" data-denominator="4" type="button" aria-pressed="true">4</button>
+                  <button data-denominator="6" type="button" aria-pressed="false">6</button>
+                  <button data-denominator="8" type="button" aria-pressed="false">8</button>
+                </div>
+                <button class="primary-button" id="pizzaCheckButton" type="button">Bestellung prüfen</button>
+                <button class="text-button" id="pizzaNewButton" type="button">↻ Neue Bestellung</button>
+              </div>
             </div>
             <div class="station-feedback" id="pizzaFeedback" aria-live="polite"></div>
           </div>
 
-          <div class="station-panel" id="labPanel" data-panel="lab">
-            <div class="panel-heading"><span class="panel-icon">🍫</span><div><small>SCHOKO-LABOR</small><h2>Brich dir deinen Bruch</h2><p>Verändere Zähler und Nenner und beobachte alles gleichzeitig.</p></div></div>
+          <div class="station-panel" id="labPanel" data-panel="lab" role="tabpanel">
+            <div class="panel-heading">
+              <span class="panel-icon">🍫</span>
+              <div>
+                <small>SCHOKO-LABOR</small>
+                <h2>Brich dir deinen Bruch</h2>
+                <p>Verändere Zähler und Nenner und beobachte Schokolade, Dezimalzahl und Prozent gleichzeitig.</p>
+              </div>
+            </div>
+
+            <div class="lab-challenge-box">
+              <div class="lab-challenge-head">
+                <span class="challenge-badge">FORSCHER-AUFGABE</span>
+                <span class="challenge-status" id="labChallengeStatus">Offen</span>
+              </div>
+              <p id="labChallengePrompt">Finde einen Bruch für genau die Hälfte (1/2) mit 6 oder 8 Teilen!</p>
+              <div class="lab-challenge-actions">
+                <button class="secondary-pill-button" id="labCheckChallengeButton" type="button">Aufgabe prüfen</button>
+                <button class="text-button" id="labNextChallengeButton" type="button">Nächste Aufgabe →</button>
+              </div>
+              <div class="station-feedback" id="labChallengeFeedback" aria-live="polite"></div>
+            </div>
+
             <div class="lab-layout">
-              <div><div class="chocolate-bar" id="chocolateBar"></div><div class="number-line"><span>0</span><div class="number-track"><i id="numberMarker"></i></div><span>1</span></div></div>
-              <div class="slider-controls"><label>Nenner: <strong id="labDenominatorValue">8</strong> Teile<input id="labDenominator" type="range" min="2" max="12" value="8" /></label><label>Zähler: <strong id="labNumeratorValue">3</strong> gefärbt<input id="labNumerator" type="range" min="0" max="8" value="3" /></label><div class="lab-equation"><span id="labFraction">3/8</span><b>=</b><span id="labDecimal">0,375</span></div><button class="primary-button" id="labCelebrateButton">Diesen Bruch merken</button></div>
+              <div>
+                <div class="chocolate-bar" id="chocolateBar" role="img" aria-label="Schokoladentafel"></div>
+                <div class="number-line">
+                  <span>0</span>
+                  <div class="number-track">
+                    <i id="numberMarker"></i>
+                    <div class="number-ticks" aria-hidden="true">
+                      <em style="left:25%">1/4</em>
+                      <em style="left:50%">1/2</em>
+                      <em style="left:75%">3/4</em>
+                    </div>
+                  </div>
+                  <span>1</span>
+                </div>
+                <p class="lab-equivalents" id="labEquivalents">Gleichwertig: 3/8</p>
+              </div>
+              <div class="slider-controls">
+                <label>Nenner: <strong id="labDenominatorValue">8</strong> Teile
+                  <input id="labDenominator" type="range" min="2" max="12" value="8" />
+                </label>
+                <label>Zähler: <strong id="labNumeratorValue">3</strong> gefärbt
+                  <input id="labNumerator" type="range" min="0" max="8" value="3" />
+                </label>
+                <div class="lab-equation">
+                  <span id="labFraction">3/8</span><b>=</b><span id="labDecimal">0,375</span><b>=</b><span id="labPercent">37,5 %</span>
+                </div>
+                <button class="primary-button" id="labCelebrateButton" type="button">Diesen Bruch merken</button>
+              </div>
             </div>
           </div>
 
-          <div class="station-panel" id="duelPanel" data-panel="duel">
-            <div class="panel-heading"><span class="panel-icon">⚖️</span><div><small>BRUCH-DUELL</small><h2>Welche Seite ist größer?</h2><p>Wähle links, gleich oder rechts – dann kippt die Waage.</p></div></div>
-            <div class="balance-scene"><div class="balance-arm" id="balanceArm"><div class="balance-pan left"><span id="leftFraction">2/3</span></div><div class="balance-pan right"><span id="rightFraction">3/5</span></div></div><div class="balance-stand"></div></div>
-            <div class="duel-answers"><button data-duel="left">Links ist größer</button><button data-duel="equal">Gleich groß</button><button data-duel="right">Rechts ist größer</button></div>
-            <button class="text-button" id="newDuelButton">↻ Neues Duell</button>
+          <div class="station-panel" id="duelPanel" data-panel="duel" role="tabpanel">
+            <div class="panel-heading">
+              <span class="panel-icon">⚖️</span>
+              <div>
+                <small>BRUCH-DUELL · SERIE: <b id="duelStreakValue">0</b></small>
+                <h2>Welche Seite ist größer?</h2>
+                <p>Wähle links, gleich oder rechts – dann kippt die Waage und zeigt dir den Beweis.</p>
+              </div>
+            </div>
+            <div class="balance-scene">
+              <div class="balance-arm" id="balanceArm">
+                <div class="balance-pan left"><span id="leftFraction">2/3</span></div>
+                <div class="balance-pan right"><span id="rightFraction">3/5</span></div>
+              </div>
+              <div class="balance-stand"></div>
+            </div>
+            <div class="duel-answers">
+              <button data-duel="left" type="button">Links ist größer</button>
+              <button data-duel="equal" type="button">Gleich groß</button>
+              <button data-duel="right" type="button">Rechts ist größer</button>
+            </div>
+            <button class="text-button" id="newDuelButton" type="button">↻ Neues Duell</button>
             <div class="station-feedback" id="duelFeedback" aria-live="polite"></div>
+            <div class="duel-proof" id="duelProof" aria-live="polite"></div>
           </div>
 
-          <div class="station-panel" id="questPanel" data-panel="quest">
-            <div class="quest-hero"><span>🚀</span><small id="questGradeLabel">QUIZ-QUEST · KLASSE 5</small><h2>Bereit für zehn Missionen?</h2><p id="questDescription">Teste dein Wissen, sammle bis zu 200 XP und werde zum Bruch-Profi.</p><div class="quest-map"><i class="done">1</i><b></b><i>2</i><b></b><i>3</i><b></b><i>4</i><b></b><i>5</i><b></b><i>6</i><b></b><i>7</i><b></b><i>8</i><b></b><i>9</i><b></b><i>10</i></div><button class="primary-button" id="questStartButton">Quest starten →</button></div>
+          <div class="station-panel" id="questPanel" data-panel="quest" role="tabpanel">
+            <div class="quest-hero">
+              <span>🚀</span>
+              <small id="questGradeLabel">QUIZ-QUEST · KLASSE 5</small>
+              <h2>Bereit für zehn Missionen?</h2>
+              <p id="questDescription">Teste dein Wissen, sammle bis zu 200 XP und werde zum Bruch-Profi.</p>
+              <p class="quest-best-score" id="questBestScore">Noch keine Runde in Klasse 5 abgeschlossen</p>
+              <div class="quest-map" id="questMap"></div>
+              <button class="primary-button" id="questStartButton" type="button">Quest starten →</button>
+            </div>
+          </div>
+
+          <div class="station-panel" id="geometryPanel" data-panel="geometry" role="tabpanel">
+            <div class="panel-heading">
+              <span class="panel-icon">📐</span>
+              <div>
+                <small>GEOMETRIE-LABOR</small>
+                <h2>Winkel &amp; Flächen bauen</h2>
+                <p>Schalte zwischen Winkel-Scanner und Flächen-Baumeister um und löse Aufgaben.</p>
+              </div>
+            </div>
+
+            <div class="mode-switch-row">
+              <button class="mode-pill active" data-geo-mode="angle" type="button" aria-pressed="true">📐 Winkel-Scanner</button>
+              <button class="mode-pill" data-geo-mode="area" type="button" aria-pressed="false">📏 Flächen-Baumeister</button>
+            </div>
+
+            <div class="lab-challenge-box">
+              <div class="lab-challenge-head">
+                <span class="challenge-badge">WERKSTATT-AUFGABE</span>
+                <span class="challenge-status" id="geoChallengeStatus">Offen</span>
+              </div>
+              <p id="geoChallengePrompt">Stelle genau einen rechten Winkel (90°) ein!</p>
+              <div class="lab-challenge-actions">
+                <button class="secondary-pill-button" id="geoCheckChallengeButton" type="button">Aufgabe prüfen</button>
+                <button class="text-button" id="geoNextChallengeButton" type="button">Nächste Aufgabe →</button>
+              </div>
+              <div class="station-feedback" id="geoChallengeFeedback" aria-live="polite"></div>
+            </div>
+
+            <div class="lab-layout" id="geoAngleWorkbench">
+              <div class="geo-stage" id="geoAngleVisual"></div>
+              <div class="slider-controls">
+                <label>Winkel α: <strong id="geoAngleValue">90°</strong>
+                  <input id="geoAngleSlider" type="range" min="10" max="350" step="5" value="90" />
+                </label>
+                <div class="lab-equation"><span id="geoAngleType">Rechter Winkel</span></div>
+                <button class="primary-button" id="geoQuizStartButton" type="button">🚀 Geometrie-Quiz (6 Missionen)</button>
+              </div>
+            </div>
+
+            <div class="lab-layout hidden" id="geoAreaWorkbench">
+              <div class="geo-stage" id="geoAreaVisual"></div>
+              <div class="slider-controls">
+                <div class="choice-row choice-row-2">
+                  <button class="active" data-geo-shape="rect" type="button" aria-pressed="true">Rechteck</button>
+                  <button data-geo-shape="triangle" type="button" aria-pressed="false">Dreieck</button>
+                </div>
+                <label>Breite a: <strong id="geoWidthValue">6 cm</strong>
+                  <input id="geoWidthSlider" type="range" min="1" max="12" value="6" />
+                </label>
+                <label>Höhe b/h: <strong id="geoHeightValue">4 cm</strong>
+                  <input id="geoHeightSlider" type="range" min="1" max="10" value="4" />
+                </label>
+                <div class="lab-equation">
+                  <span>A = <b id="geoAreaReadout">24 cm²</b></span>
+                  <b>·</b>
+                  <span>U = <b id="geoPerimeterReadout">20 cm</b></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="station-panel" id="wordsPanel" data-panel="words" role="tabpanel">
+            <div class="panel-heading">
+              <span class="panel-icon">🔎</span>
+              <div>
+                <small>DEUTSCH · WERKSTATT</small>
+                <h2>Wort-Lupe &amp; Hör-Diktat</h2>
+                <p>Markiere gesuchte Wörter im Satz oder trainiere schwierige Rechtschreibwörter.</p>
+              </div>
+            </div>
+
+            <div class="mode-switch-row">
+              <button class="mode-pill active" data-words-mode="scanner" type="button" aria-pressed="true">🔎 Wort-Lupe</button>
+              <button class="mode-pill" data-words-mode="dictation" type="button" aria-pressed="false">🎧 Hör-Diktat</button>
+            </div>
+
+            <div id="wordsScannerBox">
+              <div class="lab-challenge-box">
+                <div class="lab-challenge-head">
+                  <span class="challenge-badge">DETEKTIV-AUFTRAG</span>
+                  <span class="challenge-status" id="wordsTaskStatus">Offen</span>
+                </div>
+                <p id="wordsTaskPrompt">Klicke alle Nomen im Satz an!</p>
+              </div>
+
+              <div class="word-scanner-stage">
+                <div class="words-sentence-row" id="wordsSentenceRow"></div>
+              </div>
+
+              <div class="lab-challenge-actions">
+                <button class="primary-button" id="wordsCheckButton" type="button">Auswahl prüfen</button>
+                <button class="text-button" id="wordsNextButton" type="button">↻ Nächster Satz</button>
+              </div>
+              <div class="station-feedback" id="wordsLabFeedback" aria-live="polite"></div>
+            </div>
+
+            <div id="wordsDictationBox" class="hidden">
+              <div class="lab-challenge-box">
+                <div class="lab-challenge-head">
+                  <span class="challenge-badge">HÖR-DIKTAT</span>
+                  <span class="challenge-status" id="dictationStatus">Offen</span>
+                </div>
+                <p id="dictationMaskedText">Mein neues ___ steht sicher im Hof.</p>
+                <small id="dictationClueText" class="dictation-clue">Hinweis: Nomen mit Doppel-r!</small>
+                <div class="lab-challenge-actions">
+                  <button class="secondary-pill-button" id="dictationSpeakButton" type="button" aria-pressed="false">🔊 Satz vorlesen lassen</button>
+                </div>
+              </div>
+
+              <form class="free-input-form" id="dictationForm">
+                <div class="free-input-row">
+                  <input id="dictationInput" type="text" autocomplete="off" spellcheck="false" placeholder="Fehlendes Wort genau eintippen" aria-label="Diktatwort eintippen" />
+                  <button class="primary-button compact-btn" type="submit">Prüfen</button>
+                </div>
+              </form>
+              <div class="lab-challenge-actions">
+                <button class="text-button" id="dictationNextButton" type="button">↻ Nächstes Diktat</button>
+              </div>
+              <div class="station-feedback" id="dictationFeedback" aria-live="polite"></div>
+            </div>
+
+            <div class="lab-quiz-footer">
+              <button class="secondary-pill-button" id="wordsQuizStartButton" type="button">🚀 Deutsch-Quiz (6 Missionen)</button>
+            </div>
+          </div>
+
+          <div class="station-panel" id="englishPanel" data-panel="english" role="tabpanel">
+            <div class="panel-heading">
+              <span class="panel-icon">🌍</span>
+              <div>
+                <small>ENGLISH STUDIO</small>
+                <h2>Listening, Grammar &amp; Vocab</h2>
+                <p>Höre dir den englischen Satz an und wähle die richtige Lösung.</p>
+              </div>
+            </div>
+
+            <div class="lab-challenge-box">
+              <div class="lab-challenge-head">
+                <span class="challenge-badge">ENGLISH TASK</span>
+                <span class="challenge-status" id="englishTaskStatus">Offen</span>
+              </div>
+              <p id="englishTaskPrompt">Wähle die richtige Form von »to be«!</p>
+            </div>
+
+            <div class="english-stage">
+              <p class="english-sentence-box" id="englishSentenceBox">My friends ___ very funny.</p>
+              <button class="secondary-pill-button" id="englishSpeakButton" type="button" aria-pressed="false">🔊 Satz auf Englisch anhören</button>
+            </div>
+
+            <div class="answers" id="englishOptionsRow"></div>
+
+            <div class="lab-challenge-actions english-actions">
+              <button class="text-button" id="englishNextButton" type="button">↻ Nächste Aufgabe</button>
+              <button class="primary-button compact-btn" id="englishQuizStartButton" type="button">🚀 English Quiz (6 Missionen)</button>
+            </div>
+            <div class="station-feedback" id="englishLabFeedback" aria-live="polite"></div>
+          </div>
+
+          <div class="station-panel" id="sciencePanel" data-panel="science" role="tabpanel">
+            <div class="panel-heading">
+              <span class="panel-icon">⚡</span>
+              <div>
+                <small>NATUR &amp; TECHNIK · ENERGIE-LABOR</small>
+                <h2>Energiefluss &amp; Wirkungsgrad</h2>
+                <p>Wähle ein System und teste, wie viel Eingangsleistung zu Nutzenergie oder Wärme wird.</p>
+              </div>
+            </div>
+
+            <div class="lab-challenge-box">
+              <div class="lab-challenge-head">
+                <span class="challenge-badge">FORSCHER-AUFGABE</span>
+                <span class="challenge-status" id="scienceChallengeStatus">Offen</span>
+              </div>
+              <p id="scienceChallengePrompt">Wähle das Wasserkraftwerk und stelle genau 100 W ein!</p>
+              <div class="lab-challenge-actions">
+                <button class="secondary-pill-button" id="scienceCheckChallengeButton" type="button">Aufgabe prüfen</button>
+                <button class="text-button" id="scienceNextChallengeButton" type="button">Nächste Aufgabe →</button>
+              </div>
+              <div class="station-feedback" id="scienceChallengeFeedback" aria-live="polite"></div>
+            </div>
+
+            <div class="mode-switch-row">
+              <button class="mode-pill active" data-science-system="solar" type="button" aria-pressed="true">☀️ Solarmodul</button>
+              <button class="mode-pill" data-science-system="water" type="button" aria-pressed="false">💧 Wasserkraft</button>
+              <button class="mode-pill" data-science-system="led" type="button" aria-pressed="false">💡 LED-Lampe</button>
+              <button class="mode-pill" data-science-system="dynamo" type="button" aria-pressed="false">🚲 Dynamo</button>
+            </div>
+
+            <div class="lab-layout">
+              <div class="science-flow-stage">
+                <div class="science-input-pill" id="scienceInputLabel">☀️ Sonnenlicht: 120 W</div>
+                <div class="science-bar-card">
+                  <span id="scienceUsefulLabel">Strom (Nutzenergie): 24 W (24 Wh/h)</span>
+                  <div class="duel-bar-track"><i id="scienceUsefulBar" style="width:20%;background:var(--green)"></i></div>
+                </div>
+                <div class="science-bar-card">
+                  <span id="scienceLossLabel">Erwärmung: 96 W</span>
+                  <div class="duel-bar-track"><i id="scienceLossBar" style="width:80%;background:var(--coral)"></i></div>
+                </div>
+                <p class="lab-equivalents" id="scienceSystemNote"></p>
+              </div>
+
+              <div class="slider-controls">
+                <label>Eingangsleistung: <strong id="sciencePowerValue">120 W</strong>
+                  <input id="sciencePowerSlider" type="range" min="10" max="200" step="10" value="120" />
+                </label>
+                <label>Wirkungsgrad η: <strong id="scienceEffValue">20 %</strong>
+                  <input id="scienceEffSlider" type="range" min="10" max="95" step="5" value="20" />
+                </label>
+                <button class="primary-button" id="scienceQuizStartButton" type="button">🚀 Energie-Quiz (6 Missionen)</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="station-panel" id="sprintPanel" data-panel="sprint" role="tabpanel">
+            <div class="panel-heading">
+              <span class="panel-icon">⏱️</span>
+              <div>
+                <small>BLITZ-SPRINT · REKORD: <b id="sprintBestValue">0</b></small>
+                <h2>60-Sekunden-Kopftraining</h2>
+                <p>Löse so viele kurze Fragen wie möglich. Fehler kosten keine Punkte!</p>
+              </div>
+            </div>
+
+            <div class="sprint-intro-box" id="sprintIntroBox">
+              <label class="sprint-calm-toggle">
+                <input type="checkbox" id="sprintCalmToggle" />
+                <span>Ohne Zeitdruck spielen (Ruhemodus ohne Countdown)</span>
+              </label>
+              <button class="primary-button" id="sprintStartButton" type="button">⚡ Sprint starten →</button>
+              <div class="station-feedback" id="sprintResultFeedback" aria-live="polite"></div>
+            </div>
+
+            <div class="sprint-active-box hidden" id="sprintActiveBox">
+              <div class="sprint-hud">
+                <div><small>ZEIT</small><strong id="sprintTimerValue">60s</strong></div>
+                <div><small>TREFFER</small><strong id="sprintHitsValue">0</strong></div>
+                <div><small>COMBO</small><strong id="sprintComboValue">0x</strong></div>
+              </div>
+              <div class="sprint-question-box">
+                <span class="exercise-type" id="sprintTag">KOPFRECHNEN</span>
+                <div class="math-expression" id="sprintQuestionPrompt">1/2 von 12</div>
+              </div>
+              <div class="answers" id="sprintAnswers"></div>
+              <div class="sprint-live-feedback" id="sprintLiveFeedback" aria-live="polite"></div>
+              <button class="text-button" id="sprintStopButton" type="button">Sprint beenden</button>
+            </div>
           </div>
         </div>
       </section>
 
       <section id="lessonView" class="view lesson-view" aria-labelledby="lessonTitle">
         <div class="lesson-top">
-          <button class="back-button" id="backButton" aria-label="Zurück zur Themenauswahl">←</button>
+          <button class="back-button" id="backButton" type="button" aria-label="Zurück zur Themenauswahl">←</button>
           <div class="lesson-progress-wrap">
-            <div class="lesson-progress-label"><span id="lessonLevelLabel">BRÜCHE · KLASSE 5</span><strong id="roundLabel">1 / 5</strong></div>
+            <div class="lesson-progress-label">
+              <span id="lessonLevelLabel">BRÜCHE · KLASSE 5</span>
+              <strong id="roundLabel">1 / 10</strong>
+            </div>
             <div class="lesson-progress"><span id="lessonProgressBar"></span></div>
           </div>
-          <div class="score-pill">⭐ <strong id="scoreValue">0</strong> XP</div>
+          <div class="lesson-badges">
+            <div class="score-pill">⭐ <strong id="scoreValue">0</strong><span class="hide-mobile"> XP</span></div>
+            <div class="streak-pill-compact" title="Aktuelle Serie">🔥 <strong id="lessonStreakMobile">0</strong></div>
+          </div>
         </div>
 
         <div class="lesson-layout">
           <aside class="tutor-panel">
-            <div class="mini-mascot happy" id="lessonMascot"><div class="mini-face"><i></i><i></i><b></b></div><span>ϟ</span></div>
-            <div class="tutor-copy"><span>KLUUG SAGT</span><p id="tutorText">Ein Bruch zeigt, wie viele Teile von einem Ganzen gemeint sind. Das schaffst du!</p></div>
+            <button class="mini-mascot happy" id="lessonMascot" type="button" aria-label="Fiete anklicken für eine Motivation">
+              <span class="mini-ears" aria-hidden="true">▲ ▲</span>
+              <div class="mini-face"><i></i><i></i><b></b></div>
+              <span>ϟ</span>
+            </button>
+            <div class="tutor-copy">
+              <span>FIETE SAGT</span>
+              <p id="tutorText">Ein Bruch zeigt, wie viele Teile von einem Ganzen gemeint sind. Das schaffst du!</p>
+              <div class="tutor-mini-actions">
+                <button class="tutor-speak-btn" id="lessonSpeakButton" type="button" aria-pressed="false">🔊 Vorlesen</button>
+                <button class="tutor-speak-btn" id="lessonCheatButton" type="button">📖 Merk-Karten</button>
+              </div>
+            </div>
           </aside>
 
           <article class="exercise-card" id="exerciseCard">
-            <span class="exercise-type" id="exerciseType">AUFWÄRMEN</span>
+            <div class="exercise-card-top">
+              <span class="exercise-type" id="exerciseType">AUFWÄRMEN</span>
+              <button class="profi-toggle-pill" id="profiModeToggle" type="button" aria-pressed="false">🎯 Profi-Eingabe: Aus</button>
+            </div>
             <h1 id="lessonTitle">Welcher Bruch ist gefärbt?</h1>
             <p class="exercise-hint" id="exerciseHint">Zähle erst alle Teile – und dann die lila Teile.</p>
-            <div class="visual-question" id="visualQuestion" aria-label="Grafische Darstellung des Bruchs"></div>
+            <div class="visual-question" id="visualQuestion" aria-label="Grafische Darstellung der Aufgabe"></div>
             <div class="answers" id="answers"></div>
             <div class="feedback" id="feedback" aria-live="polite">
               <div class="feedback-icon" id="feedbackIcon">✓</div>
               <div><strong id="feedbackTitle">Stark!</strong><p id="feedbackText">Genau richtig.</p></div>
-              <button class="next-button" id="nextButton">Weiter <span>→</span></button>
+              <button class="next-button" id="nextButton" type="button">Weiter <span>→</span></button>
             </div>
           </article>
 
           <aside class="streak-card">
-            <span class="streak-flame">🔥</span><div><strong id="lessonStreak">0</strong><span>RICHTIG IN FOLGE</span></div>
+            <span class="streak-flame">🔥</span>
+            <div><strong id="lessonStreak">0</strong><span>RICHTIG IN FOLGE</span></div>
           </aside>
         </div>
       </section>
@@ -200,20 +692,112 @@
           <span class="section-kicker">RUNDE GESCHAFFT</span>
           <h1 id="resultTitle">Du Bruch-Profi!</h1>
           <p id="resultMessage">Du hast dich richtig reingehängt. Darauf kannst du stolz sein!</p>
-          <div class="result-stats"><div><strong id="resultCorrect">0/5</strong><span>Richtig</span></div><div><strong id="resultXp">0</strong><span>XP gesammelt</span></div><div><strong id="bestStreak">0</strong><span>Beste Serie</span></div></div>
-          <div class="result-actions"><button class="primary-button" id="againButton">Noch eine Runde</button><button class="ghost-button" id="resultHomeButton">Themen wählen</button></div>
+          <div class="result-stats">
+            <div><strong id="resultCorrect">0/10</strong><span>Richtig</span></div>
+            <div><strong id="resultXp">0</strong><span>XP gesammelt</span></div>
+            <div><strong id="bestStreak">0</strong><span>Beste Serie</span></div>
+          </div>
+          <div class="result-topics" id="resultTopics"></div>
+          <div class="result-actions">
+            <button class="primary-button" id="retryWrongButton" type="button" hidden>🔄 Fehler nochmal knacken</button>
+            <button class="primary-button" id="againButton" type="button">Noch eine Runde</button>
+            <button class="ghost-button" id="resultHomeButton" type="button">Themen wählen</button>
+          </div>
         </div>
       </section>
     </main>
 
     <dialog class="badge-dialog" id="badgeDialog">
-      <div class="dialog-heading"><div><span class="section-kicker">DEINE ERFOLGE</span><h2>Abzeichen-Album</h2></div><button id="badgeCloseButton" aria-label="Album schließen">×</button></div>
-      <p>Probiere Stationen aus und entdecke, was du schon alles kannst.</p>
+      <div class="dialog-heading">
+        <div><span class="section-kicker">DEINE ERFOLGE</span><h2>Abzeichen-Album</h2></div>
+        <button id="badgeCloseButton" type="button" aria-label="Album schließen">×</button>
+      </div>
+      <p>Probiere Stationen und Fächer aus und sammle alle 15 Abzeichen.</p>
       <div class="badge-grid" id="badgeGrid"></div>
-      <button class="ghost-button dialog-close" id="badgeDoneButton">Weiterlernen</button>
+      <button class="ghost-button dialog-close" id="badgeDoneButton" type="button">Weiterlernen</button>
     </dialog>
 
-    <div class="toast" id="toast" role="status"><span>✨</span><div><strong>Bald verfügbar!</strong><p>Dieses Abenteuer bauen wir gerade für dich.</p></div></div>
-    <script src="app.js"></script>
+    <dialog class="badge-dialog cheat-dialog" id="cheatDialog">
+      <div class="dialog-heading">
+        <div><span class="section-kicker">SPICKZETTEL</span><h2>Fietes Merk-Karten</h2></div>
+        <button id="cheatCloseButton" type="button" aria-label="Merk-Karten schließen">×</button>
+      </div>
+      <div class="mode-switch-row" aria-label="Fachfilter für Merk-Karten">
+        <button class="mode-pill active" data-cheat-filter="all" type="button" aria-pressed="true">Alle</button>
+        <button class="mode-pill" data-cheat-filter="fractions" type="button" aria-pressed="false">Brüche</button>
+        <button class="mode-pill" data-cheat-filter="geometry" type="button" aria-pressed="false">Geometrie</button>
+        <button class="mode-pill" data-cheat-filter="words" type="button" aria-pressed="false">Deutsch</button>
+        <button class="mode-pill" data-cheat-filter="english" type="button" aria-pressed="false">Englisch</button>
+        <button class="mode-pill" data-cheat-filter="science" type="button" aria-pressed="false">Natur &amp; Technik</button>
+      </div>
+      <div class="cheat-grid" id="cheatSheetGrid"></div>
+      <button class="ghost-button dialog-close" id="cheatDoneButton" type="button">Zurück zum Lernen</button>
+    </dialog>
+
+    <dialog class="badge-dialog profile-dialog" id="profileDialog">
+      <div class="dialog-heading">
+        <div><span class="section-kicker">DEIN PROFIL</span><h2>Lernstand &amp; Einstellungen</h2></div>
+        <button id="profileCloseButton" type="button" aria-label="Profil schließen">×</button>
+      </div>
+
+      <div class="profile-section">
+        <span class="section-kicker">PROFILE WECHSELN</span>
+        <div class="profile-switcher-list" id="profileSwitcherList"></div>
+        <form class="new-profile-form" id="newProfileForm">
+          <input id="newProfileNameInput" type="text" maxlength="24" placeholder="Neues Profil (z. B. Lena)" required />
+          <button class="secondary-pill-button" type="submit">＋ Profil hinzufügen</button>
+        </form>
+      </div>
+
+      <form class="profile-name-form" id="profileNameForm">
+        <label for="profileNameInput">Name des aktiven Profils</label>
+        <div class="profile-name-row">
+          <input id="profileNameInput" type="text" maxlength="24" placeholder="Dein Vorname" required />
+          <button class="primary-button compact-btn" type="submit">Speichern</button>
+        </div>
+      </form>
+
+      <div class="profile-stats-grid" id="profileStatsGrid"></div>
+
+      <div class="profile-section">
+        <span class="section-kicker">BESTLEISTUNG AKTUELLE KLASSE</span>
+        <div class="profile-grades-grid" id="profileGradesGrid"></div>
+      </div>
+
+      <div class="profile-section">
+        <span class="section-kicker">THEMEN-CHECK AKTUELLE KLASSE</span>
+        <div id="profileTopicsBox"></div>
+      </div>
+
+      <div class="profile-backup-row">
+        <button class="secondary-pill-button" id="profileReportButton" type="button">📋 Lernbericht kopieren</button>
+        <button class="secondary-pill-button" id="profilePrintButton" type="button">🖨️ Bericht drucken</button>
+        <button class="secondary-pill-button" id="profileExportButton" type="button">💾 Backup (JSON)</button>
+        <button class="secondary-pill-button" id="profileImportButton" type="button">📥 Backup laden</button>
+        <input id="profileImportInput" type="file" accept=".json,application/json" hidden />
+      </div>
+      <pre class="profile-report-preview" id="profileReportPreview" hidden></pre>
+
+      <div class="profile-footer">
+        <div class="profile-reset-group">
+          <button class="danger-link-button" id="profileResetButton" type="button">Lernstand zurücksetzen</button>
+          <button class="text-button" id="profileResetCancel" type="button" hidden>Abbrechen</button>
+          <button class="danger-link-button" id="profileDeleteButton" type="button" hidden>Profil löschen</button>
+        </div>
+        <button class="ghost-button" id="profileDoneButton" type="button">Schließen</button>
+      </div>
+    </dialog>
+
+    <section class="print-only" id="printReportSheet" aria-hidden="true"></section>
+
+    <div class="toast" id="toast" role="status">
+      <span>✨</span>
+      <div><strong>Hinweis</strong><p>Alles gespeichert.</p></div>
+    </div>
+
+    <noscript>
+      <p style="padding:20px;text-align:center;">Bitte aktiviere JavaScript und öffne KLUUG über einen lokalen Webserver oder GitHub Pages.</p>
+    </noscript>
+    <script type="module" src="app.js"></script>
   </body>
 </html>
