@@ -796,8 +796,15 @@
     </div>
 
     <noscript>
-      <p style="padding:20px;text-align:center;">Bitte aktiviere JavaScript und öffne KLUUG über einen lokalen Webserver oder GitHub Pages.</p>
+      <p style="padding:20px;text-align:center;">Bitte aktiviere JavaScript, um KLUUG zu nutzen.</p>
     </noscript>
+    <script>
+      if (window.location.protocol === 'file:') {
+        var offlineBundle = document.createElement('script');
+        offlineBundle.src = 'app.bundle.js';
+        document.body.appendChild(offlineBundle);
+      }
+    </script>
     <script type="module" src="app.js"></script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kluug-v4';
+const CACHE_NAME = 'kluug-v5';
 const APP_SHELL = [
   './',
   './index.html',
@@ -58,15 +58,22 @@ self.addEventListener('fetch', event => {
   if (requestUrl.origin !== self.location.origin) return;
 
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      if (cached) return cached;
-      return fetch(event.request).then(response => {
+    fetch(event.request)
+      .then(response => {
         if (response && response.status === 200) {
           const copy = response.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
         }
         return response;
-      });
-    })
+      })
+      .catch(() =>
+        caches.match(event.request).then(cached => {
+          if (cached) return cached;
+          if (event.request.mode === 'navigate') {
+            return caches.match('./index.html');
+          }
+          return undefined;
+        })
+      )
   );
 });

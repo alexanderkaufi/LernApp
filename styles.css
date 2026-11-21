@@ -49,6 +49,11 @@ input:focus-visible {
   outline-offset: 3px;
 }
 
+[hidden],
+.hidden {
+  display: none !important;
+}
+
 .ambient {
   position: fixed;
   z-index: -1;

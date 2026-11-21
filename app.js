@@ -361,29 +361,38 @@ $('#badgeDialog')?.addEventListener('click', event => {
 window.addEventListener('hashchange', syncViewFromHash);
 
 // Initialize stations, dialogs, cheat sheets, and initial UI state
-updateCommonProgressUI(getProgress());
-initPizzaStation();
-initLabStation();
-initDuelStation();
-initQuestStation();
-initSprintStation();
-initGeometryLab({ onStartQuiz: subjectId => startLesson({ subjectId }) });
-initWordsLab({ onStartQuiz: subjectId => startLesson({ subjectId }) });
-initEnglishLab({ onStartQuiz: subjectId => startLesson({ subjectId }) });
-initScienceLab({ onStartQuiz: subjectId => startLesson({ subjectId }) });
-initCheatSheets();
-initProfileDialog({
-  onReset: () => updateGradeUI({ refreshStations: true }),
-  onImport: () => updateGradeUI({ refreshStations: true }),
-  onProfileChange: () => updateGradeUI({ refreshStations: true })
-});
-updateGradeUI({ refreshStations: false });
+function bootApp() {
+  if (typeof window !== 'undefined') {
+    if (window.__KLUUG_BOOTED__) return;
+    window.__KLUUG_BOOTED__ = true;
+  }
 
-if (location.hash && location.hash !== '#dashboard') {
-  syncViewFromHash();
+  updateCommonProgressUI(getProgress());
+  initPizzaStation();
+  initLabStation();
+  initDuelStation();
+  initQuestStation();
+  initSprintStation();
+  initGeometryLab({ onStartQuiz: subjectId => startLesson({ subjectId }) });
+  initWordsLab({ onStartQuiz: subjectId => startLesson({ subjectId }) });
+  initEnglishLab({ onStartQuiz: subjectId => startLesson({ subjectId }) });
+  initScienceLab({ onStartQuiz: subjectId => startLesson({ subjectId }) });
+  initCheatSheets();
+  initProfileDialog({
+    onReset: () => updateGradeUI({ refreshStations: true }),
+    onImport: () => updateGradeUI({ refreshStations: true }),
+    onProfileChange: () => updateGradeUI({ refreshStations: true })
+  });
+  updateGradeUI({ refreshStations: false });
+
+  if (location.hash && location.hash !== '#dashboard') {
+    syncViewFromHash();
+  }
+
+  // Register offline service worker when served via HTTP/HTTPS
+  if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator && location.protocol?.startsWith('http')) {
+    navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }).catch(() => {});
+  }
 }
 
-// Register offline service worker when served via HTTP/HTTPS
-if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator && location.protocol?.startsWith('http')) {
-  navigator.serviceWorker.register('./sw.js').catch(() => {});
-}
+bootApp();
