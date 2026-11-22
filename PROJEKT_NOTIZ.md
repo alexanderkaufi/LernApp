@@ -145,3 +145,9 @@ Immer kurz ergänzen:
 - **GitHub Pages & Service Worker (`sw.js`, `app.js`, `.nojekyll`):** Service Worker auf **Network-First** umgestellt, Cache auf `kluug-v5` erhöht, `{ updateViaCache: 'none' }` bei der Registrierung aktiviert und `.nojekyll` ergänzt, damit Aktualisierungen sofort ankommen statt in älteren Caches festzuhängen.
 - **CSS-Sichtbarkeit (`styles.css`):** Globale Regel `[hidden], .hidden { display: none !important; }` ergänzt, damit versteckte Buttons/Bereiche (z. B. Zweite Chance oder Reset-Abbrechen) zuverlässig ausgeblendet bleiben.
 - **Lokal geprüft:** `tests/run_tests.mjs` (3191 Assertions), `tests/smoke_boot.mjs` (ES-Module unter `http:` **und** klassisches `app.bundle.js` unter `file:`), HTML/CSS/Manifest/SW- und Asset-Prüfung ohne Fehler bestanden (anschließend zu `main` gepusht). Automatisierte Live-Browser-Inspektion im headless Webview scheiterte an ausbleibender Origin-Freigabe (`ORIGIN_PERMISSION_REQUIRED`).
+
+### 22. November 2026 – Begrüßung ohne festen Namen (`Hey!` statt `Hey Alex!`)
+
+- **Hero-Begrüßung & Standardprofil (`index.html`, `src/core/{state,store,ui}.js`, `src/profile.js`):** Der feste fiktive Standardname `Alex` wurde entfernt. Die Startseite begrüßt nun direkt mit **„Hey! Was knacken wir heute?“** (der gewünschte lockere Slang bleibt erhalten), neue Profile starten ohne vorgegebenen Namen (`''` statt `'Alex'`, Avatar-Fallback `KL`, Bericht-Fallback `Mein Lernprofil`), und eigene Namen im Profil bleiben weiterhin optional möglich.
+- **Cache & Bundle (`sw.js`, `app.bundle.js`):** Service-Worker-Cache auf `kluug-v6` aktualisiert und `app.bundle.js` neu erzeugt.
+- **Lokal geprüft:** `tests/run_tests.mjs` (3191 Assertions), `tests/smoke_boot.mjs` (ES-Module + `file://`-Bundle), HTML/CSS/Manifest/SW-Prüfung ohne Fehler bestanden.

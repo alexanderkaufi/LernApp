@@ -104,7 +104,7 @@ export function toggleSound() {
 
 export function setUserName(name) {
   const trimmed = String(name || '').trim().slice(0, 24);
-  progress.userName = trimmed || 'Alex';
+  progress.userName = trimmed;
   syncVaultAndNotify({ type: 'profile' });
   return progress.userName;
 }

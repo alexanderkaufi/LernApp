@@ -147,13 +147,11 @@ export function updateCommonProgressUI(progress) {
     $('#dailyGoalBar').style.width = `${dailyPct}%`;
   }
 
-  const userName = progress.userName || 'Alex';
-  const greetingName = $('#heroUserName');
-  if (greetingName) greetingName.textContent = userName;
+  const userName = progress.userName || '';
   const profileBtn = $('#profileButton');
   if (profileBtn) {
     profileBtn.textContent = getInitials(userName);
-    profileBtn.setAttribute('aria-label', `Profil von ${userName} öffnen`);
+    profileBtn.setAttribute('aria-label', userName ? `Profil von ${userName} öffnen` : 'Profil öffnen');
   }
 
   const soundBtn = $('#soundButton');

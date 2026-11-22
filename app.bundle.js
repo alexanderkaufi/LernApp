@@ -2893,8 +2893,8 @@ function createEmptyGradeMap() {
   return { 5: 0, 6: 0, 7: 0, 8: 0 };
 }
 
-function createDefaultProgress(userName = 'Alex', selectedGrade = 5) {
-  const cleanName = String(userName || 'Alex').trim().slice(0, 24) || 'Alex';
+function createDefaultProgress(userName = '', selectedGrade = 5) {
+  const cleanName = String(userName || '').trim().slice(0, 24);
   const grade = [5, 6, 7, 8].includes(Number(selectedGrade)) ? Number(selectedGrade) : 5;
   return {
     totalXp: 0,
@@ -2973,7 +2973,7 @@ function mergeProgress(raw) {
     profiSolvedCount: Math.max(0, Number(raw.profiSolvedCount) || 0),
     selectedGrade: [5, 6, 7, 8].includes(grade) ? grade : 5,
     lastSubject: VALID_SUBJECTS.includes(raw.lastSubject) ? raw.lastSubject : 'fractions',
-    userName: typeof raw.userName === 'string' && raw.userName.trim() ? raw.userName.trim().slice(0, 24) : 'Alex',
+    userName: typeof raw.userName === 'string' && raw.userName.trim() ? raw.userName.trim().slice(0, 24) : '',
     streakDays: Math.max(0, Number(raw.streakDays) || 0),
     lastActiveDate: typeof raw.lastActiveDate === 'string' ? raw.lastActiveDate : null,
     bestCorrectByGrade: mergedBestBySubject.fractions,
@@ -3281,7 +3281,7 @@ function formatLearningReportText(progress) {
       : '- Noch keine Quiz-Daten in dieser Klasse';
 
   return [
-    `KLUUG Lernbericht – ${progress?.userName || 'Alex'} (Klasse ${grade})`,
+    `KLUUG Lernbericht – ${progress?.userName || 'Mein Lernprofil'} (Klasse ${grade})`,
     `Level: ${levelInfo.level} (${levelInfo.title}) · ${progress?.totalXp || 0} XP`,
     `Lernserie: ${progress?.streakDays || 0} Tage · Abzeichen: ${progress?.badges?.length || 0}/${badgeDefinitions.length}`,
     `Bestleistungen Klasse ${grade}:`,
@@ -3439,7 +3439,7 @@ function toggleSound() {
 
 function setUserName(name) {
   const trimmed = String(name || '').trim().slice(0, 24);
-  progress.userName = trimmed || 'Alex';
+  progress.userName = trimmed;
   syncVaultAndNotify({ type: 'profile' });
   return progress.userName;
 }
@@ -3980,13 +3980,11 @@ function updateCommonProgressUI(progress) {
     $('#dailyGoalBar').style.width = `${dailyPct}%`;
   }
 
-  const userName = progress.userName || 'Alex';
-  const greetingName = $('#heroUserName');
-  if (greetingName) greetingName.textContent = userName;
+  const userName = progress.userName || '';
   const profileBtn = $('#profileButton');
   if (profileBtn) {
     profileBtn.textContent = getInitials(userName);
-    profileBtn.setAttribute('aria-label', `Profil von ${userName} öffnen`);
+    profileBtn.setAttribute('aria-label', userName ? `Profil von ${userName} öffnen` : 'Profil öffnen');
   }
 
   const soundBtn = $('#soundButton');
@@ -4133,7 +4131,8 @@ function renderProfileSwitcher(onProfileChange) {
   container.innerHTML = profiles
     .map(p => {
       const active = p.id === activeProfileId;
-      return `<button type="button" class="profile-pill-btn ${active ? 'active' : ''}" data-profile-id="${escapeHtml(p.id)}" aria-pressed="${active}"><b>${escapeHtml(getInitials(p.userName))}</b><span>${escapeHtml(p.userName)} (Kl. ${p.selectedGrade} · ${p.totalXp} XP)</span></button>`;
+      const displayName = p.userName || 'Mein Lernprofil';
+      return `<button type="button" class="profile-pill-btn ${active ? 'active' : ''}" data-profile-id="${escapeHtml(p.id)}" aria-pressed="${active}"><b>${escapeHtml(getInitials(p.userName))}</b><span>${escapeHtml(displayName)} (Kl. ${p.selectedGrade} · ${p.totalXp} XP)</span></button>`;
     })
     .join('');
 
@@ -4143,7 +4142,8 @@ function renderProfileSwitcher(onProfileChange) {
       if (selectProfile(id)) {
         renderProfileDialog(onProfileChange);
         if (typeof onProfileChange === 'function') onProfileChange();
-        showToast('👤 Profil gewechselt', `Willkommen zurück, ${getProgress().userName}!`);
+        const nextName = getProgress().userName;
+        showToast('👤 Profil gewechselt', nextName ? `Willkommen zurück, ${nextName}!` : 'Aktives Lernprofil geladen.');
       }
     });
   });
@@ -4167,7 +4167,7 @@ function renderProfileDialog(onProfileChange) {
   renderProfileSwitcher(onProfileChange);
 
   const nameInput = $('#profileNameInput');
-  if (nameInput) nameInput.value = progress.userName || 'Alex';
+  if (nameInput) nameInput.value = progress.userName || '';
 
   const statsEl = $('#profileStatsGrid');
   if (statsEl) {
@@ -4271,7 +4271,7 @@ function printWeeklyReport() {
     const summaryText = formatLearningReportText(progress);
     sheet.innerHTML = `
       <h1>KLUUG – Wochen- &amp; Lernbericht</h1>
-      <p class="print-meta">Erstellt am ${escapeHtml(dateStr)} · Profil: ${escapeHtml(progress.userName || 'Alex')}</p>
+      <p class="print-meta">Erstellt am ${escapeHtml(dateStr)} · Profil: ${escapeHtml(progress.userName || 'Mein Lernprofil')}</p>
       <pre>${escapeHtml(summaryText)}</pre>
     `;
   }
@@ -4296,7 +4296,7 @@ function initProfileDialog({ onReset, onImport, onProfileChange } = {}) {
     event.preventDefault();
     const updated = setUserName($('#profileNameInput')?.value);
     renderProfileSwitcher(notifyChange);
-    showToast('👤 Profil gespeichert', `Schön, dass du da bist, ${updated}!`);
+    showToast('👤 Profil gespeichert', updated ? `Schön, dass du da bist, ${updated}!` : 'Profil aktualisiert.');
   });
 
   $('#newProfileForm')?.addEventListener('submit', event => {
@@ -4318,7 +4318,7 @@ function initProfileDialog({ onReset, onImport, onProfileChange } = {}) {
   $('#profileDeleteButton')?.addEventListener('click', () => {
     const { activeProfileId, profiles } = getVaultSnapshot();
     if (profiles.length <= 1) return;
-    const removedName = getProgress().userName;
+    const removedName = getProgress().userName || 'Lernprofil';
     if (removeProfile(activeProfileId)) {
       renderProfileDialog(notifyChange);
       if (typeof notifyChange === 'function') notifyChange();

@@ -36,7 +36,8 @@ function renderProfileSwitcher(onProfileChange) {
   container.innerHTML = profiles
     .map(p => {
       const active = p.id === activeProfileId;
-      return `<button type="button" class="profile-pill-btn ${active ? 'active' : ''}" data-profile-id="${escapeHtml(p.id)}" aria-pressed="${active}"><b>${escapeHtml(getInitials(p.userName))}</b><span>${escapeHtml(p.userName)} (Kl. ${p.selectedGrade} · ${p.totalXp} XP)</span></button>`;
+      const displayName = p.userName || 'Mein Lernprofil';
+      return `<button type="button" class="profile-pill-btn ${active ? 'active' : ''}" data-profile-id="${escapeHtml(p.id)}" aria-pressed="${active}"><b>${escapeHtml(getInitials(p.userName))}</b><span>${escapeHtml(displayName)} (Kl. ${p.selectedGrade} · ${p.totalXp} XP)</span></button>`;
     })
     .join('');
 
@@ -46,7 +47,8 @@ function renderProfileSwitcher(onProfileChange) {
       if (selectProfile(id)) {
         renderProfileDialog(onProfileChange);
         if (typeof onProfileChange === 'function') onProfileChange();
-        showToast('👤 Profil gewechselt', `Willkommen zurück, ${getProgress().userName}!`);
+        const nextName = getProgress().userName;
+        showToast('👤 Profil gewechselt', nextName ? `Willkommen zurück, ${nextName}!` : 'Aktives Lernprofil geladen.');
       }
     });
   });
@@ -70,7 +72,7 @@ export function renderProfileDialog(onProfileChange) {
   renderProfileSwitcher(onProfileChange);
 
   const nameInput = $('#profileNameInput');
-  if (nameInput) nameInput.value = progress.userName || 'Alex';
+  if (nameInput) nameInput.value = progress.userName || '';
 
   const statsEl = $('#profileStatsGrid');
   if (statsEl) {
@@ -174,7 +176,7 @@ function printWeeklyReport() {
     const summaryText = formatLearningReportText(progress);
     sheet.innerHTML = `
       <h1>KLUUG – Wochen- &amp; Lernbericht</h1>
-      <p class="print-meta">Erstellt am ${escapeHtml(dateStr)} · Profil: ${escapeHtml(progress.userName || 'Alex')}</p>
+      <p class="print-meta">Erstellt am ${escapeHtml(dateStr)} · Profil: ${escapeHtml(progress.userName || 'Mein Lernprofil')}</p>
       <pre>${escapeHtml(summaryText)}</pre>
     `;
   }
@@ -199,7 +201,7 @@ export function initProfileDialog({ onReset, onImport, onProfileChange } = {}) {
     event.preventDefault();
     const updated = setUserName($('#profileNameInput')?.value);
     renderProfileSwitcher(notifyChange);
-    showToast('👤 Profil gespeichert', `Schön, dass du da bist, ${updated}!`);
+    showToast('👤 Profil gespeichert', updated ? `Schön, dass du da bist, ${updated}!` : 'Profil aktualisiert.');
   });
 
   $('#newProfileForm')?.addEventListener('submit', event => {
@@ -221,7 +223,7 @@ export function initProfileDialog({ onReset, onImport, onProfileChange } = {}) {
   $('#profileDeleteButton')?.addEventListener('click', () => {
     const { activeProfileId, profiles } = getVaultSnapshot();
     if (profiles.length <= 1) return;
-    const removedName = getProgress().userName;
+    const removedName = getProgress().userName || 'Lernprofil';
     if (removeProfile(activeProfileId)) {
       renderProfileDialog(notifyChange);
       if (typeof notifyChange === 'function') notifyChange();

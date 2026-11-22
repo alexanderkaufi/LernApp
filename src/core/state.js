@@ -41,8 +41,8 @@ function createEmptyGradeMap() {
   return { 5: 0, 6: 0, 7: 0, 8: 0 };
 }
 
-export function createDefaultProgress(userName = 'Alex', selectedGrade = 5) {
-  const cleanName = String(userName || 'Alex').trim().slice(0, 24) || 'Alex';
+export function createDefaultProgress(userName = '', selectedGrade = 5) {
+  const cleanName = String(userName || '').trim().slice(0, 24);
   const grade = [5, 6, 7, 8].includes(Number(selectedGrade)) ? Number(selectedGrade) : 5;
   return {
     totalXp: 0,
@@ -121,7 +121,7 @@ export function mergeProgress(raw) {
     profiSolvedCount: Math.max(0, Number(raw.profiSolvedCount) || 0),
     selectedGrade: [5, 6, 7, 8].includes(grade) ? grade : 5,
     lastSubject: VALID_SUBJECTS.includes(raw.lastSubject) ? raw.lastSubject : 'fractions',
-    userName: typeof raw.userName === 'string' && raw.userName.trim() ? raw.userName.trim().slice(0, 24) : 'Alex',
+    userName: typeof raw.userName === 'string' && raw.userName.trim() ? raw.userName.trim().slice(0, 24) : '',
     streakDays: Math.max(0, Number(raw.streakDays) || 0),
     lastActiveDate: typeof raw.lastActiveDate === 'string' ? raw.lastActiveDate : null,
     bestCorrectByGrade: mergedBestBySubject.fractions,
@@ -429,7 +429,7 @@ export function formatLearningReportText(progress) {
       : '- Noch keine Quiz-Daten in dieser Klasse';
 
   return [
-    `KLUUG Lernbericht – ${progress?.userName || 'Alex'} (Klasse ${grade})`,
+    `KLUUG Lernbericht – ${progress?.userName || 'Mein Lernprofil'} (Klasse ${grade})`,
     `Level: ${levelInfo.level} (${levelInfo.title}) · ${progress?.totalXp || 0} XP`,
     `Lernserie: ${progress?.streakDays || 0} Tage · Abzeichen: ${progress?.badges?.length || 0}/${badgeDefinitions.length}`,
     `Bestleistungen Klasse ${grade}:`,

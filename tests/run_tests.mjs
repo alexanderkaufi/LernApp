@@ -156,7 +156,7 @@ const upgraded = mergeProgress({
 assert(
   upgraded.totalXp === 120 &&
     upgraded.selectedGrade === 7 &&
-    upgraded.userName === 'Alex' &&
+    upgraded.userName === '' &&
     upgraded.bestCorrectBySubject.fractions[7] === 5,
   'v1 storage merge preserves fractions score'
 );
